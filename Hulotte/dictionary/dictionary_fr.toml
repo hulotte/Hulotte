@@ -1,0 +1,28 @@
+[MiddlewareError]
+handle_exception = "Aucun middleware n'a intercepté cette requête."
+
+[CrudError]
+create = "L'item a bien été créé."
+delete = "L'item a bien été supprimé."
+update = "L'item a bien été modifié."
+
+[CsrfMiddleware]
+TypeError = "La session passée au middleware CSRF n'est pas traitable comme un tableau."
+
+[DispatcherMiddleware]
+Exception = "La réponse n'est pas une chaîne de charactères ou une instance de ResponseInterface."
+
+[NotFoundMiddleware]
+errorMessage = "Erreur 404"
+
+[ValidationError]
+betweenLength = "Le champ %s doit contenir entre %d et %d caractères."
+dateTime = "Le champ %s doit être une date valide (%d)."
+email = "Le champ %s doit être un email valide."
+empty = "Le champ %s ne peut pas être vide."
+exists = "Le champ %s n'existe pas dans la table %s."
+maxLength = "Le champ %s doit contenir moins de %d caractères."
+minLength = "Le champ %s doit contenir plus de %d caractères."
+notExists = "Le champ %s existe déjà dans la table %s."
+required = "Le champ %s est requis."
+slug = "Le champ %s n'est pas un slug valide."

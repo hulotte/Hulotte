@@ -1,0 +1,7 @@
+parameters:
+    level: 5
+    paths:
+        - Hulotte
+        - HulotteModules
+    excludes_analyse:
+        - HulotteModules/Account/database

@@ -1,0 +1,28 @@
+[MiddlewareError]
+handle_exception = "No middleware intercepted this request."
+
+[CrudError]
+create = "The item has been created."
+delete = "The item has been deleted."
+update = "The item has been modified."
+
+[CsrfMiddleware]
+TypeError = "The session passed to the CSRF middleware is not treatable like a table."
+
+[DispatcherMiddleware]
+Exception = "The response is not a string or an instance of ResponseInterface."
+
+[NotFoundMiddleware]
+errorMessage = "404 error"
+
+[ValidationError]
+betweenLength = "The field %s must contain between %d and %d characters."
+dateTime = "The field %s must be a valid date (%d)."
+email = "The field %s must be a valid email."
+empty = "The field %s cannot be empty."
+exists = "The field %s does not exists on table %s."
+maxLength = "The field %s must contain less than %d characters."
+minLength = "The field %s must contain more than %d characters."
+notExists = "The field %s already exists on table %s."
+required = "The field %s is required."
+slug = "The field %s is not a valid slug."
