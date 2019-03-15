@@ -2,7 +2,12 @@
 <?php
 
 // Call autoload
-$autoloader = explode('vendor', __DIR__)[0] . 'vendor/autoload.php';
+if(strpos(__DIR__, 'vendor')){
+    $autoloader = explode('vendor', __DIR__)[0] . 'vendor/autoload.php';
+} else {
+    $autoloader = dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+}
+
 require $autoloader;
 
 // Appel du component
