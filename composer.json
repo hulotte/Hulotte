@@ -38,7 +38,8 @@
 		"squizlabs/php_codesniffer": "^3.3",
 		"robmorgan/phinx": "^0.10.6",
 		"fzaninotto/faker": "^1.8",
-		"phpstan/phpstan": "^0.10.5"
+		"phpstan/phpstan": "^0.10.5",
+		"symfony/finder": "^4.3@dev"
 	},
 	"support": {
         "email": "s.clement@lareclame31.fr"
