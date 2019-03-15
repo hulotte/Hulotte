@@ -16,7 +16,8 @@
         "psr-4": {
 			"Tests\\": "tests"
 		}
-    }, 
+	}, 
+	"bin": ["bin/hulotte"],
 	"description": "PHP framework for web sites and applications.",
 	"keywords": ["framework"],
 	"license": "MIT",
