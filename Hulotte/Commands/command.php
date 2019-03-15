@@ -2,8 +2,7 @@
 <?php
 
 // Call autoload
-$dir = dirname(dirname(__DIR__));
-require $dir . '/vendor/autoload.php';
+require dirname(__DIR__) . '/autoload.php';
 
 // Appel du component
 use Symfony\Component\Console\Application;
