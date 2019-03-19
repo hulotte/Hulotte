@@ -49,4 +49,5 @@ if (php_sapi_name() !== 'cli') {
     $response = $app->run(ServerRequest::fromGlobals());
     send($response);
 }
+
 EOD;
