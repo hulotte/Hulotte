@@ -7,6 +7,11 @@ use Symfony\Component\Console\{
     Input\InputInterface,
     Output\OutputInterface
 };
+use Hulotte\Commands\Details\{
+    Init\PublicCommand, 
+    Init\SrcCommand,
+    Init\TmpCommand
+};
 
 /**
  * Class InitCommand
@@ -35,55 +40,8 @@ class InitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $output->writeln('coucou');
-
-        $this->createPublicFolder();
-        $output->writeln('Index file is created');
-
-        /*
-        $this->moduleName = $input->getArgument('moduleName');
-        $this->pathModule = 'module/' . $this->moduleName;
-
-        if (!file_exists('module/' . $this->moduleName)) {
-            mkdir($this->pathModule);
-
-            $this->createController();
-
-            mkdir($this->pathModule . '/database');
-
-            $this->createDictionary();
-
-            mkdir($this->pathModule . '/entity');
-            mkdir($this->pathModule . '/public');
-
-            $this->createStyle();
-            $this->createJs();
-
-            mkdir($this->pathModule . '/public/image');
-            mkdir($this->pathModule . '/table');
-
-            $this->createView();
-
-            $this->createConfigFile();
-
-            $output->writeln('Le module ' . $this->moduleName . ' a bien été créé.');
-        } else {
-            $output->writeln('Le module ' . $this->moduleName . ' existe déjà.');
-        }
-        */
-    }
-
-    /**
-     * 
-     */
-    private function createPublicFolder(): void
-    {
-        mkdir('public');
-        $indexFile = fopen('public/index.php', 'a+');
-
-        $content = 'test';
-
-        fputs($indexFile, $content);
-        fclose($indexFile);
+        TmpCommand::execute($input, $output);
+        PublicCommand::execute($input, $output); 
+        SrcCommand::execute($input, $output);
     }
 }
