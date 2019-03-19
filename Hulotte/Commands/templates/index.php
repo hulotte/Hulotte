@@ -1,41 +1,6 @@
 <?php
 
-namespace Hulotte\Commands\Details\Init;
-
-use Symfony\Component\Console\{
-    Input\InputInterface,
-    Output\OutputInterface
-};
-use Hulotte\Commands\Details\CommandInterface;
-
-/**
- * Class PublicCommand
- * @package Hulotte\Commands\Details\Init
- * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
- */
-class PublicCommand implements CommandInterface
-{
-     /**
-     * Executes list of commands
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     */
-    public static function execute(InputInterface $input, OutputInterface $output): void
-    {
-        $output->writeln('Creating public folder with index file');
-        self::createPublicFolder();
-        self::createIndexFile();
-        $output->writeln('Public folder with index file is created');
-    }
-
-    /**
-     * Create index file and write content
-     */
-    private static function createIndexFile(): void
-    {
-        $indexFile = fopen('public/index.php', 'a+');
-
-        $content = <<< 'EOD'
+return <<< 'EOD'
 <?php
 
 use \GuzzleHttp\Psr7\ServerRequest;
@@ -85,16 +50,3 @@ if (php_sapi_name() !== 'cli') {
     send($response);
 }
 EOD;
-
-        fputs($indexFile, $content);
-        fclose($indexFile);
-    }
-
-    /**
-     * Create public folder
-     */
-    private static function createPublicFolder(): void
-    {
-        mkdir('public');
-    }
-}

@@ -7,11 +7,6 @@ use Symfony\Component\Console\{
     Input\InputInterface,
     Output\OutputInterface
 };
-use Hulotte\Commands\Details\{
-    Init\PublicCommand, 
-    Init\SrcCommand,
-    Init\TmpCommand
-};
 
 /**
  * Class InitCommand
@@ -40,8 +35,81 @@ class InitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        TmpCommand::execute($input, $output);
-        PublicCommand::execute($input, $output); 
-        SrcCommand::execute($input, $output);
+        $this->createHtaccessFile($output);
+        $this->createTmpFolder($output);
+        $this->createPublicFolder($output);
+        $this->createIndexFile($output);
+        $this->createSrcFolder($output);
+    }
+
+    /**
+     * Create .htaccess file
+     * @param OutputInterface $output
+     */
+    private function createHtaccessFile(OutputInterface $output): void
+    {
+        if(!file_exists('.htaccess')){
+            $output->writeln('Creating htaccess file');
+            $indexFile = fopen('.htaccess', 'a+');
+            $content = require __DIR__ . '/templates/htaccess.php';
+            fputs($indexFile, $content);
+            fclose($indexFile);
+            $output->writeln('htaccess file is created');
+        }
+    }
+
+    /**
+     * Create index file
+     * @param OutputInterface $output
+     */
+    private function createIndexFile(OutputInterface $output): void
+    {
+        if(!file_exists('public/index.php')){
+            $output->writeln('Creating index.php file');
+            $indexFile = fopen('public/index.php', 'a+');
+            $content = require __DIR__ . '/templates/index.php';
+            fputs($indexFile, $content);
+            fclose($indexFile);
+            $output->writeln('index.php file is created');
+        }
+    }
+
+    /**
+     * Create public folder
+     * @param OutputInterface $output
+     */
+    private function createPublicFolder(OutputInterface $output):void
+    {
+        if(!file_exists('public')){
+            $output->writeln('Creating public folder');
+            mkdir('public');
+            $output->writeln('Public folder is created');
+        }
+    }
+
+    /**
+     * Create src folder
+     * @param OutputInterface $output
+     */
+    private function createSrcFolder(OutputInterface $output):void
+    {
+        if(!file_exists('src')){
+            $output->writeln('Creating src folder');
+            mkdir('src');
+            $output->writeln('src folder is created');
+        }
+    }
+
+    /**
+     * Create temporary folder
+     * @param OutputInterface $output
+     */
+    private function createTmpFolder(OutputInterface $output): void
+    {
+        if(!file_exists('tmp')){
+            $output->writeln('Creating tmp folder');
+            mkdir('tmp');
+            $output->writeln('tmp folder is created');
+        }
     }
 }

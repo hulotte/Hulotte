@@ -12,13 +12,17 @@ require $autoloader;
 
 // Appel du component
 use Symfony\Component\Console\Application;
-use Hulotte\Commands\InitCommand;
+use Hulotte\Commands\{
+    InitCommand, 
+    ModuleCommand
+};
 
 // Déclaration du component
 $application = new Application();
 
 // Ajout des commandes
 $application->add(new InitCommand());
+$application->add(new ModuleCommand());
 
 // Lancement des commandes
 $application->run();
