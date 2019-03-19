@@ -13,6 +13,11 @@ $ composer require hulotte/hulotte
 This will install Hulotte and all required dependencies.
 
 ## Start project
+When Hulotte has been installed via [Composer](https://getcomposer.org/), you can initialize a project with this command line
+
+```bash
+$ ./vendor/bin/hulotte init
+```
 
 ## License
 The Hulotte framework is licensed under the MIT license. See [License File](LICENSE) for more information.
