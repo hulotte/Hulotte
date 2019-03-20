@@ -68,7 +68,7 @@ class ModuleCommand extends Command
      */
     private function createActionsFolder()
     {
-        if(!file_exists($this->getModulePath() . '/Actions')){
+        if (!file_exists($this->getModulePath() . '/Actions')) {
             mkdir($this->getModulePath() . '/Actions');
         }
     }
@@ -78,7 +78,7 @@ class ModuleCommand extends Command
      */
     private function createConfigFile()
     {
-        if(!file_exists($this->getModulePath() . '/config.php')){
+        if (!file_exists($this->getModulePath() . '/config.php')) {
             $config = fopen($this->getModulePath() . '/config.php', 'a+');
             $content = require __DIR__ . '/templates/config.php';
             fputs($config, $content);
@@ -91,7 +91,7 @@ class ModuleCommand extends Command
      */
     private function createCustomModuleFolder(): void
     {
-        if(!file_exists($this->getModulePath())){
+        if (!file_exists($this->getModulePath())) {
             mkdir($this->getModulePath());
         }
     }
@@ -101,7 +101,7 @@ class ModuleCommand extends Command
      */
     private function createDatabaseFolders(): void
     {
-        if(!file_exists($this->getModulePath() . '/database')){
+        if (!file_exists($this->getModulePath() . '/database')) {
             mkdir($this->getModulePath() . '/database');
             mkdir($this->getModulePath() . '/database/migrations');
             mkdir($this->getModulePath() . '/database/seeds');
@@ -113,7 +113,7 @@ class ModuleCommand extends Command
      */
     private function createDictionaryFiles(): void
     {
-        if(!file_exists($this->getModulePath() . '/dictionary')){
+        if (!file_exists($this->getModulePath() . '/dictionary')) {
             mkdir($this->getModulePath() . '/dictionary');
 
             // Create english dictionary
@@ -137,7 +137,7 @@ class ModuleCommand extends Command
     {
         $fileName = $this->moduleName . 'Module';
 
-        if(!file_exists($this->getModulePath() . '/' . $fileName)){
+        if (!file_exists($this->getModulePath() . '/' . $fileName)) {
             $moduleController = fopen($this->getModulePath() . '/' . $fileName, 'a+');
             $content = require __DIR__ . '/templates/moduleController.php';
             $content = str_replace('%MODULE_NAME%', $this->moduleName, $content);
@@ -152,7 +152,7 @@ class ModuleCommand extends Command
      */
     private function createModulesFolder(OutputInterface $output): void
     {
-        if(!file_exists(self::MODULES_PATH)){
+        if (!file_exists(self::MODULES_PATH)) {
             $output->writeln('Creating modules folder');
             mkdir(self::MODULES_PATH);
             $output->writeln('modules folder is created');
@@ -164,7 +164,7 @@ class ModuleCommand extends Command
      */
     private function createViewsFolder(): void
     {
-        if(!file_exists($this->getModulePath() . '/views')){
+        if (!file_exists($this->getModulePath() . '/views')) {
             mkdir($this->getModulePath() . '/views');
         }
     }
@@ -175,7 +175,7 @@ class ModuleCommand extends Command
      */
     private function getModulePath(): string
     {
-        if(!$this->modulePath){
+        if (!$this->modulePath) {
             $this->modulePath = self::MODULES_PATH . '/' . $this->moduleName;
         }
 

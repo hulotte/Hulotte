@@ -64,7 +64,7 @@ class InitCommand extends Command
      */
     private function createHtaccessFile(OutputInterface $output): void
     {
-        if(!file_exists('.htaccess')){
+        if (!file_exists('.htaccess')) {
             $output->writeln('Creating htaccess file');
             $indexFile = fopen('.htaccess', 'a+');
             $content = require __DIR__ . '/templates/htaccess.php';
@@ -80,7 +80,7 @@ class InitCommand extends Command
      */
     private function createIndexFile(OutputInterface $output): void
     {
-        if(!file_exists('public/index.php')){
+        if (!file_exists('public/index.php')) {
             $output->writeln('Creating index.php file');
             $indexFile = fopen('public/index.php', 'a+');
             $content = require __DIR__ . '/templates/index.php';
@@ -96,7 +96,7 @@ class InitCommand extends Command
      */
     private function createPublicFolder(OutputInterface $output):void
     {
-        if(!file_exists('public')){
+        if (!file_exists('public')) {
             $output->writeln('Creating public folder');
             mkdir('public');
             $output->writeln('Public folder is created');
@@ -109,7 +109,7 @@ class InitCommand extends Command
      */
     private function createSrcFolder(OutputInterface $output):void
     {
-        if(!file_exists('src')){
+        if (!file_exists('src')) {
             $output->writeln('Creating src folder');
             mkdir('src');
             $output->writeln('src folder is created');
@@ -122,7 +122,7 @@ class InitCommand extends Command
      */
     private function createTmpFolder(OutputInterface $output): void
     {
-        if(!file_exists('tmp')){
+        if (!file_exists('tmp')) {
             $output->writeln('Creating tmp folder');
             mkdir('tmp');
             $output->writeln('tmp folder is created');
