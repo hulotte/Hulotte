@@ -19,5 +19,7 @@ When Hulotte has been installed via [Composer](https://getcomposer.org/), you ca
 $ ./vendor/bin/hulotte init
 ```
 
+This command will install basics files and folders. It also install App module.
+
 ## License
 The Hulotte framework is licensed under the MIT license. See [License File](LICENSE) for more information.
