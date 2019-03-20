@@ -18,7 +18,6 @@ use Hulotte\{
     Middlewares\TrailingSlashMiddleware
 };
 use HulotteModules\Account\{
-    AccountModule,
     Middlewares\ForbiddenMiddleware,
     Middlewares\LoggedInMiddleware
 };
@@ -29,7 +28,6 @@ require 'vendor/autoload.php';
 
 // Load modules
 $app = (new App())
-    ->addModule(AccountModule::class)
     ->addModule(AppModule::class);
 
 // Load middlewares
