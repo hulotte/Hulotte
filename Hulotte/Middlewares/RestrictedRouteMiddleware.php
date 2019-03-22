@@ -10,7 +10,7 @@ use Psr\{
     Http\Server\RequestHandlerInterface
 };
 use Hulotte\{
-    AuthInterface,
+    Auth\AuthInterface,
     Exceptions\ForbiddenException
 };
 

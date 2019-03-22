@@ -10,14 +10,14 @@ use Psr\{
     Http\Server\RequestHandlerInterface
 };
 use Hulotte\{
-    AuthInterface,
+    Auth\AuthInterface,
     Exceptions\ForbiddenException,
     Middlewares\RestrictedRouteMiddleware
 };
 
 class RestrictedRouteMiddlewareTest extends TestCase
 {
-    private $authInterface;
+    private $auth;
     private $container;
     private $handle;
     private $middleware;
@@ -25,7 +25,7 @@ class RestrictedRouteMiddlewareTest extends TestCase
 
     public function setUp()
     {
-        $this->authInterface = $this->createMock(AuthInterface::class);
+        $this->auth = $this->createMock(AuthInterface::class);
         $this->container = $this->createMock(ContainerInterface::class);
         
         $this->middleware = new RestrictedRouteMiddleware(
@@ -61,10 +61,10 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $request = new ServerRequest('GET', '/with-permission');
 
         $this->getHandle()->expects($this->once())->method('handle');
-        $this->authInterface->method('hasPermission')->willReturn(true);
+        $this->auth->method('hasPermission')->willReturn(true);
         $this->container->expects($this->once())->method('get')
             ->with(AuthInterface::class)
-            ->willReturn($this->authInterface);
+            ->willReturn($this->auth);
 
         $this->middleware->process($request, $this->getHandle());
     }
@@ -74,10 +74,10 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $request = new ServerRequest('GET', '/with-permission');
 
         $this->getHandle()->expects($this->never())->method('handle');
-        $this->authInterface->method('hasPermission')->willReturn(false);
+        $this->auth->method('hasPermission')->willReturn(false);
         $this->container->expects($this->once())->method('get')
             ->with(AuthInterface::class)
-            ->willReturn($this->authInterface);
+            ->willReturn($this->auth);
 
         $this->expectException(ForbiddenException::class);
 
@@ -89,10 +89,10 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $request = new ServerRequest('GET', '/multiple-permission');
 
         $this->getHandle()->expects($this->once())->method('handle');
-        $this->authInterface->method('hasPermission')->willReturn(true);
+        $this->auth->method('hasPermission')->willReturn(true);
         $this->container->expects($this->once())->method('get')
             ->with(AuthInterface::class)
-            ->willReturn($this->authInterface);
+            ->willReturn($this->auth);
 
         $this->middleware->process($request, $this->getHandle());
     }

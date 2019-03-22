@@ -13,6 +13,7 @@ use Hulotte\{
     Middlewares\DispatcherMiddleware,
     Middlewares\ForbiddenMiddleware,
     Middlewares\LocaleMiddleware,
+    Middlewares\LoggedInMiddleware,
     Middlewares\MethodMiddleware,
     Middlewares\NotFoundMiddleware,
     Middlewares\RouterMiddleware,
@@ -32,6 +33,7 @@ $app->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(LocaleMiddleware::class)
     ->pipe(ForbiddenMiddleware::class)
+    ->pipe(LoggedInMiddleware::class, $app->getContainer()->get('restricted.paths'))
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)

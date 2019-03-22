@@ -3,7 +3,7 @@
 use function DI\add;
 use function DI\autowire;
 use function DI\get;
-use Hulotte\AuthInterface;
+use Hulotte\Auth\AuthInterface;
 use HulotteModules\Auth;
 
 return [

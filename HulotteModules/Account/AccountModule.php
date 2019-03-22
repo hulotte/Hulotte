@@ -8,6 +8,7 @@ use Hulotte\{
     Renderer\RendererInterface,
     Router
 };
+use HulotteModules\Account\Actions\LoginAction;
 
 /**
  * Class AccountModule

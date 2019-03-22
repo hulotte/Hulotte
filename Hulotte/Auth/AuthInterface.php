@@ -1,13 +1,13 @@
 <?php
 
-namespace Hulotte;
+namespace Hulotte\Auth;
 
 use Hulotte\Exceptions\NoAuthException;
 
 /**
  * Interface AuthInterface
  *
- * @package Hulotte
+ * @package Hulotte\Auth
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
 interface AuthInterface
@@ -27,4 +27,11 @@ interface AuthInterface
      * @throws NoAuthException
      */
     public function hasRole(string $role): bool;
+
+    /**
+     * Get the connected user
+     * @return null|UserEntityInterface
+     * @throws NoAuthException
+     */
+    public function getUser(): ?UserEntityInterface;
 }

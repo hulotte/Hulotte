@@ -3,7 +3,7 @@
 namespace HulotteModules\Account;
 
 use Hulotte\{
-    AuthInterface, 
+    Auth\AuthInterface, 
     Exceptions\NoAuthException
 };
 
