@@ -11,6 +11,7 @@ use Hulotte\{
     App,
     Middlewares\CsrfMiddleware,
     Middlewares\DispatcherMiddleware,
+    Middlewares\ForbiddenMiddleware,
     Middlewares\LocaleMiddleware,
     Middlewares\MethodMiddleware,
     Middlewares\NotFoundMiddleware,
@@ -30,6 +31,7 @@ $app = (new App())
 $app->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(LocaleMiddleware::class)
+    ->pipe(ForbiddenMiddleware::class)
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)

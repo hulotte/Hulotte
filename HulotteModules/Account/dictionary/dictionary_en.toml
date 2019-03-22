@@ -10,10 +10,6 @@ update = "yours informations has been updated."
 errorPassword = "Incorrect password."
 errorUserNotExists = "This user does not exists."
 
-[ForbiddenMiddleware]
-errorNotConnected = "You need to be connected to acces to this page."
-errorNotPermission = "You do not have the permissions to access this page."
-
 [LogoutAction]
 offline = "You are now offline."
 

@@ -58,7 +58,7 @@ class RestrictedRouteMiddleware implements MiddlewareInterface
      * @param RequestHandlerInterface $next
      * @return ResponseInterface
      * @throws ForbiddenException
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {

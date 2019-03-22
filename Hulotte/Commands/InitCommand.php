@@ -35,7 +35,6 @@ class InitCommand extends Command
      * Executes the current command
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @throws LogicException
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {

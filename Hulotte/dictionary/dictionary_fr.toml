@@ -9,6 +9,10 @@ update = "L'item a bien été modifié."
 [CsrfMiddleware]
 TypeError = "La session passée au middleware CSRF n'est pas traitable comme un tableau."
 
+[ForbiddenMiddleware]
+errorNotConnected = "Vous avez besoin d'être connecté pour accéder à cette page."
+errorNotPermission = "Vous n'avez pas les permissions pour accéder à cette page."
+
 [DispatcherMiddleware]
 Exception = "La réponse n'est pas une chaîne de charactères ou une instance de ResponseInterface."
 
