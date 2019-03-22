@@ -8,7 +8,8 @@
     ],
 	"autoload": {
         "psr-4": {
-            "Hulotte\\": "Hulotte"
+			"Hulotte\\": "Hulotte", 
+			"HulotteModules\\": "HulotteModules"
         }
     }, 
 	"autoload-dev": {
