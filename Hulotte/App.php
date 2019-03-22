@@ -115,13 +115,22 @@ class App implements RequestHandlerInterface
     /**
      * Add a middleware of the current pipe
      * @param string $middleware
+     * @param array $restrictedPaths
      * @return App
      * @throws \Exception
      */
-    public function pipe(string $middleware): self
+    public function pipe(string $middleware, array $restrictedPaths = []): self
     {
-        $this->middlewares[] = $middleware;
-        
+        if (empty($restrictedPaths)) {
+            $this->middlewares[] = $middleware;
+        } else {
+            $this->middlewares[] = new RestrictedRouteMiddleware(
+                $this->getContainer(),
+                $middleware,
+                $restrictedPaths
+            );
+        }
+
         return $this;
     }
 
