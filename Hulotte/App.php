@@ -10,10 +10,7 @@ use Psr\{
     Http\Server\MiddlewareInterface,
     Http\Server\RequestHandlerInterface
 };
-use Hulotte\{
-    Middlewares\RestrictedRouteMiddleware,
-    Services\Dictionary
-};
+use Hulotte\Services\Dictionary;
 
 /**
  * Class App
@@ -118,21 +115,12 @@ class App implements RequestHandlerInterface
     /**
      * Add a middleware of the current pipe
      * @param string $middleware
-     * @param array $restrictedPaths
      * @return App
      * @throws \Exception
      */
-    public function pipe(string $middleware, array $restrictedPaths = []): self
+    public function pipe(string $middleware): self
     {
-        if (empty($restrictedPaths)) {
-            $this->middlewares[] = $middleware;
-        } else {
-            $this->middlewares[] = new RestrictedRouteMiddleware(
-                $this->getContainer(),
-                $restrictedPaths,
-                $middleware
-            );
-        }
+        $this->middlewares[] = $middleware;
         
         return $this;
     }

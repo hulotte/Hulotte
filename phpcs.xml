@@ -6,7 +6,6 @@
     <arg value="p"/>
 
     <file>Hulotte</file>
-	<file>HulotteModules</file>
     <file>tests</file>
 
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>

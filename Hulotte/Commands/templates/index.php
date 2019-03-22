@@ -17,10 +17,6 @@ use Hulotte\{
     Middlewares\RouterMiddleware,
     Middlewares\TrailingSlashMiddleware
 };
-use HulotteModules\Account\{
-    Middlewares\ForbiddenMiddleware,
-    Middlewares\LoggedInMiddleware
-};
 
 chdir(dirname(__DIR__));
 
@@ -34,8 +30,6 @@ $app = (new App())
 $app->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(LocaleMiddleware::class)
-    ->pipe(ForbiddenMiddleware::class)
-    ->pipe(LoggedInMiddleware::class, $app->getContainer()->get('restricted.paths'))
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)

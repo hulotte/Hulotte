@@ -1,7 +1,0 @@
-{{ csrf_input() }}
-
-{{ field_select('civility', "Civilité", item.civility, {options: {'Mme': 'Mme', 'M.': 'M.'}}) }}
-{{ field_input('name', "Nom", item.name) }}
-{{ field_input('firstName', "Prénom", item.firstName) }}
-{{ field_input('email', "Adresse mail", item.email, {type: 'email'}) }}
-{{ field_checkbox('roles', 'Sélectionner des rôles', item.getRolesId(), {'checkboxes': roles}) }}
