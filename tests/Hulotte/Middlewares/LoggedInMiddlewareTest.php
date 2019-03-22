@@ -4,7 +4,10 @@ namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\{
+    Container\ContainerInterface,
+    Http\Server\RequestHandlerInterface
+};
 use Hulotte\{
     Auth\AuthInterface,
     Auth\UserEntityInterface, 
@@ -20,12 +23,20 @@ use Hulotte\{
  */
 class LoggedInMiddlewareTest extends TestCase
 {
+    private $container;
+
+    public function setUp()
+    {
+        $this->container = $this->prophesize(ContainerInterface::class);
+    }
+
     public function testSuccess()
     {
         $auth = $this->createMock(AuthInterface::class);
         $auth->method('getUser')
             ->willReturn($this->createMock(UserEntityInterface::class));
-        $middleware = new LoggedInMiddleware($auth);
+        $this->container->get(AuthInterface::class)->willReturn($auth);
+        $middleware = new LoggedInMiddleware($this->container->reveal());
 
         $request = new ServerRequest('GET', '/test');
         $handle = $this->getMockBuilder(RequestHandlerInterface::class)
@@ -43,7 +54,8 @@ class LoggedInMiddlewareTest extends TestCase
         $auth = $this->createMock(AuthInterface::class);
         $auth->method('getUser')
             ->will($this->throwException(new NoAuthException()));
-        $middleware = new LoggedInMiddleware($auth);
+        $this->container->get(AuthInterface::class)->willReturn($auth);
+        $middleware = new LoggedInMiddleware($this->container->reveal());
 
         $request = new ServerRequest('GET', '/test');
         $handle = $this->getMockBuilder(RequestHandlerInterface::class)

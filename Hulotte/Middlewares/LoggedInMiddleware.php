@@ -2,11 +2,12 @@
 
 namespace Hulotte\Middlewares;
 
-use Psr\Http\{
-    Message\ResponseInterface,
-    Message\ServerRequestInterface,
-    Server\MiddlewareInterface,
-    Server\RequestHandlerInterface
+use Psr\{
+    Container\ContainerInterface,
+    Http\Message\ResponseInterface,
+    Http\Message\ServerRequestInterface,
+    Http\Server\MiddlewareInterface,
+    Http\Server\RequestHandlerInterface
 };
 use Hulotte\{
     Auth\AuthInterface,
@@ -30,9 +31,9 @@ class LoggedInMiddleware implements MiddlewareInterface
      * LoggedInMiddleware constructor
      * @param AuthInterface $auth
      */
-    public function __construct(AuthInterface $auth)
+    public function __construct(ContainerInterface $container)
     {
-        $this->auth = $auth;
+        $this->auth = $container->get(AuthInterface::class);
     }
 
     /**
@@ -43,6 +44,10 @@ class LoggedInMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
+        if($this->auth === null){
+            return $next->handle($request);
+        }
+        
         $user = $this->auth->getUser();
 
         if($user === null){
