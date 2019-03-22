@@ -3,7 +3,7 @@
 return <<< 'EOD'
 <?php
 
-namespace Modules\%MODULE_NAME%;
+namespace %MODULE_NAME%;
 
 use Psr\Container\ContainerInterface;
 use Hulotte\{
@@ -15,7 +15,7 @@ use Hulotte\{
 /**
  * Class %MODULE_NAME%Module
  *
- * @package Modules\%MODULE_NAME%
+ * @package %MODULE_NAME%
  */
 class %MODULE_NAME%Module extends Module
 {

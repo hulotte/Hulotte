@@ -46,14 +46,11 @@ class InitCommand extends Command
         $this->createSrcFolder($output);
         
         // Call module command to create App module
-        $output->writeln('Creating App module');
         $application = new Application();
         $application->add(new ModuleCommand());
         $args = ['command' => 'module:create', 'moduleName' => 'app'];
         $input = new ArrayInput($args);
-        $output = new NullOutput();
         $application->doRun($input, $output);
-        $output->writeln('App module is created');
         $output->writeln('--------------------');
         $output->writeln('Your project is initialized');
     }
