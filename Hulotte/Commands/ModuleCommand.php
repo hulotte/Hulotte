@@ -17,8 +17,6 @@ use Symfony\Component\Console\{
  */
 class ModuleCommand extends Command
 {
-    const MODULES_PATH = 'src/modules';
-
     /**
      * @var string
      */
@@ -50,7 +48,6 @@ class ModuleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->moduleName = ucfirst($input->getArgument('moduleName'));
-        $this->createModulesFolder($output);
 
         $output->writeln('Creating ' . $this->moduleName . ' folders and files');
         $this->createCustomModuleFolder();
@@ -135,7 +132,7 @@ class ModuleCommand extends Command
      */
     private function createModuleController(): void
     {
-        $fileName = $this->moduleName . 'Module';
+        $fileName = $this->moduleName . 'Module.php';
 
         if (!file_exists($this->getModulePath() . '/' . $fileName)) {
             $moduleController = fopen($this->getModulePath() . '/' . $fileName, 'a+');
@@ -143,19 +140,6 @@ class ModuleCommand extends Command
             $content = str_replace('%MODULE_NAME%', $this->moduleName, $content);
             fputs($moduleController, $content);
             fclose($moduleController);
-        }
-    }
-
-    /**
-     * Create modules folder
-     * @param OutputInterface $output
-     */
-    private function createModulesFolder(OutputInterface $output): void
-    {
-        if (!file_exists(self::MODULES_PATH)) {
-            $output->writeln('Creating modules folder');
-            mkdir(self::MODULES_PATH);
-            $output->writeln('modules folder is created');
         }
     }
 
@@ -176,7 +160,7 @@ class ModuleCommand extends Command
     private function getModulePath(): string
     {
         if (!$this->modulePath) {
-            $this->modulePath = self::MODULES_PATH . '/' . $this->moduleName;
+            $this->modulePath = 'src/' . $this->moduleName;
         }
 
         return $this->modulePath;
