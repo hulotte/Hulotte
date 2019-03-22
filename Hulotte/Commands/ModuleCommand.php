@@ -132,7 +132,7 @@ class ModuleCommand extends Command
      */
     private function createModuleController(): void
     {
-        $fileName = $this->moduleName . 'Module';
+        $fileName = $this->moduleName . 'Module.php';
 
         if (!file_exists($this->getModulePath() . '/' . $fileName)) {
             $moduleController = fopen($this->getModulePath() . '/' . $fileName, 'a+');
