@@ -17,5 +17,4 @@ return [
     // URLs
 
     // Variables
-    'account.auth.login' => '/login',
 ];

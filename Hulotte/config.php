@@ -10,6 +10,7 @@ use function \DI\factory;
 use function \DI\get;
 use Hulotte\{
     Middlewares\CsrfMiddleware,
+    Middlewares\ForbiddenMiddleware,
     Renderer\RendererInterface,
     Renderer\TwigRendererFactory,
     Router,
@@ -45,6 +46,9 @@ return [
 
         return new Dictionary($locale);
     },
+    ForbiddenMiddleware::class => autowire()
+        ->constructorParameter('loginPath', get('account.auth.login'))
+        ->constructorParameter('dashboardPath', get('account.dashboard')),
     RendererInterface::class => factory(TwigRendererFactory::class),
     Router::class => factory(RouterFactory::class),
     SessionInterface::class => autowire(PhpSession::class),
@@ -70,6 +74,8 @@ return [
     'accepted.locales' => [
         'en', 'fr'
     ],
+    'account.auth.login' => '/login',
+    'account.dashboard' => '/dashboard',
     'database.host' => env('DATABASE_HOST'),
     'database.name' => env('DATABASE_NAME'),
     'database.password' => env('DATABASE_PASSWORD'),
