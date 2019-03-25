@@ -89,7 +89,7 @@ class InitCommand extends Command
 
     /**
      * Create migration file for phinx
-     * @param OutputInterface $output 
+     * @param OutputInterface $output
      */
     private function createMigrationFile(OutputInterface $output):void
     {

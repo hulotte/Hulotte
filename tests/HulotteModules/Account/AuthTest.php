@@ -6,12 +6,12 @@ use PHPUnit\Framework\TestCase;
 use Hulotte\{
     Exceptions\NoAuthException,
     Services\Dictionary,
-    Session\PhpSession, 
+    Session\PhpSession,
     Session\SessionInterface
 };
 use HulotteModules\Account\{
     Auth,
-    Entity\UserEntity, 
+    Entity\UserEntity,
     Table\UserTable
 };
 

@@ -23,17 +23,17 @@ use Hulotte\{
 class LoggedInMiddleware implements MiddlewareInterface
 {
     /**
-     * @var AuthInterface
+     * @var null|AuthInterface
      */
     private $auth;
 
     /**
      * LoggedInMiddleware constructor
-     * @param AuthInterface $auth
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
-        if($container->has(AuthInterface::class)){
+        if ($container->has(AuthInterface::class)) {
             $this->auth = $container->get(AuthInterface::class);
         } else {
             $this->auth = null;
@@ -48,13 +48,13 @@ class LoggedInMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
-        if($this->auth === null){
+        if ($this->auth === null) {
             return $next->handle($request);
         }
         
         $user = $this->auth->getUser();
 
-        if($user === null){
+        if ($user === null) {
             throw new NoAuthException();
         }
 

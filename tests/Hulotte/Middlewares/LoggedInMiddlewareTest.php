@@ -10,7 +10,7 @@ use Psr\{
 };
 use Hulotte\{
     Auth\AuthInterface,
-    Auth\UserEntityInterface, 
+    Auth\UserEntityInterface,
     Exceptions\NoAuthException,
     Middlewares\LoggedInMiddleware
 };

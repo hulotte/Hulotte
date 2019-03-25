@@ -8,7 +8,7 @@ namespace Hulotte\Auth;
  * @package Hulotte\Auth
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-interface UserEntityInterface 
+interface UserEntityInterface
 {
     /**
      * Define if a user have the right for a permission

@@ -7,12 +7,12 @@ use PHPUnit\Framework\TestCase;
 use Hulotte\{
     Renderer\RendererInterface,
     Router,
-    Services\Dictionary, 
+    Services\Dictionary,
     Session\SessionInterface
 };
 use HulotteModules\Account\{
     Actions\Auth\LoginAttemptAction,
-    Auth, 
+    Auth,
     Entity\UserEntity
 };
 
@@ -43,7 +43,11 @@ class LoginAttemptActionTest extends TestCase
     public function testLoginWithError()
     {
         $loginAttemptAction = new LoginAttemptAction(
-            $this->auth, $this->dictionary, $this->renderer, $this->router, $this->session
+            $this->auth,
+            $this->dictionary,
+            $this->renderer,
+            $this->router,
+            $this->session
         );
         $request = (new ServerRequest('POST', '/login'))
             ->withParsedBody([
@@ -61,7 +65,11 @@ class LoginAttemptActionTest extends TestCase
         $this->auth->method('login')->willReturn(null);
 
         $loginAttemptAction = new LoginAttemptAction(
-            $this->auth, $this->dictionary, $this->renderer, $this->router, $this->session
+            $this->auth,
+            $this->dictionary,
+            $this->renderer,
+            $this->router,
+            $this->session
         );
         $request = (new ServerRequest('POST', '/login'))
             ->withParsedBody([
@@ -81,7 +89,11 @@ class LoginAttemptActionTest extends TestCase
         $this->session->method('get')->willReturn('path');
 
         $loginAttemptAction = new LoginAttemptAction(
-            $this->auth, $this->dictionary, $this->renderer, $this->router, $this->session
+            $this->auth,
+            $this->dictionary,
+            $this->renderer,
+            $this->router,
+            $this->session
         );
         $request = (new ServerRequest('POST', '/login'))
             ->withParsedBody([

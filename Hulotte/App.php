@@ -10,7 +10,10 @@ use Psr\{
     Http\Server\MiddlewareInterface,
     Http\Server\RequestHandlerInterface
 };
-use Hulotte\Services\Dictionary;
+use Hulotte\{
+    Middlewares\RestrictedRouteMiddleware,
+    Services\Dictionary
+};
 
 /**
  * Class App
