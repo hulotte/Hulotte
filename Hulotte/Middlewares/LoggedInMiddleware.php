@@ -33,7 +33,11 @@ class LoggedInMiddleware implements MiddlewareInterface
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->auth = $container->get(AuthInterface::class);
+        if($container->has(AuthInterface::class)){
+            $this->auth = $container->get(AuthInterface::class);
+        } else {
+            $this->auth = null;
+        }
     }
 
     /**

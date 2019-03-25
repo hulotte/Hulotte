@@ -28,6 +28,7 @@ class LoggedInMiddlewareTest extends TestCase
     public function setUp()
     {
         $this->container = $this->prophesize(ContainerInterface::class);
+        $this->container->has('Hulotte\Auth\AuthInterface')->willReturn(true);
     }
 
     public function testSuccess()
