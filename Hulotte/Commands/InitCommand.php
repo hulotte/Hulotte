@@ -43,6 +43,7 @@ class InitCommand extends Command
         $this->createPublicFolder($output);
         $this->createIndexFile($output);
         $this->createSrcFolder($output);
+        $this->createMigrationFile($output);
         
         // Call module command to create App module
         $application = new Application();
@@ -83,6 +84,22 @@ class InitCommand extends Command
             fputs($indexFile, $content);
             fclose($indexFile);
             $output->writeln('index.php file is created');
+        }
+    }
+
+    /**
+     * Create migration file for phinx
+     * @param OutputInterface $output 
+     */
+    private function createMigrationFile(OutputInterface $output):void
+    {
+        if (!file_exists('phinx.php')) {
+            $output->writeln('Creating phinx.php file');
+            $phinxFile = fopen('phinx.php', 'a+');
+            $content = require __DIR__ . '/templates/phinx.php';
+            fputs($phinxFile, $content);
+            fclose($phinxFile);
+            $output->writeln('phinx.php file is created');
         }
     }
 

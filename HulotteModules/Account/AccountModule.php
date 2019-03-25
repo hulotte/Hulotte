@@ -6,9 +6,23 @@ use Psr\Container\ContainerInterface;
 use Hulotte\{
     Module,
     Renderer\RendererInterface,
+    Renderer\TwigRenderer,
     Router
 };
-use HulotteModules\Account\Actions\Auth\LoginAction;
+use HulotteModules\Account\{
+    Actions\Auth\AccountAction,
+    Actions\Auth\AccountPasswordAction,
+    Actions\Auth\AccountPasswordUpdateAction,
+    Actions\Auth\AccountUpdateAction,
+    Actions\Auth\LoginAction,
+    Actions\Auth\LoginAttemptAction,
+    Actions\Auth\LogoutAction,
+    Actions\Dashboard\DashboardAction,
+    Actions\Permission\PermissionAction,
+    Actions\Permission\PermissionAddRoleAction,
+    Actions\Permission\PermissionDeleteRoleAction,
+    Twig\DashboardExtension
+};
 
 /**
  * Class AccountModule
@@ -54,5 +68,39 @@ class AccountModule extends Module
 
         // Auth
         $router->get($container->get('account.auth.login'), LoginAction::class, 'account.auth.login');
+        $router->post($container->get('account.auth.login'), LoginAttemptAction::class);
+        $router->get($container->get('account.auth.logout'), LogoutAction::class, 'account.auth.logout');
+        $router->get($container->get('account.auth.update'), AccountAction::class, 'account.auth.update');
+        $router->post($container->get('account.auth.update'), AccountUpdateAction::class);
+        $router->get(
+            $container->get('account.auth.password.update'),
+            AccountPasswordAction::class,
+            'account.auth.password.update'
+        );
+        $router->post($container->get('account.auth.password.update'), AccountPasswordUpdateAction::class);
+
+        // Dashboard
+        $router->get($container->get('account.dashboard'), DashboardAction::class, 'account.dashboard');
+
+        if ($renderer instanceof TwigRenderer) {
+            $renderer->getTwig()->addExtension($dashboardExtension);
+        }
+
+        // Permission
+        $router->get(
+            $container->get('account.manager.permission'),
+            PermissionAction::class,
+            'account.manager.permission'
+        );
+        $router->post(
+            $container->get('account.manager.permission') . '/{id:\d+}',
+            PermissionAddRoleAction::class,
+            'account.manager.permission.addRole'
+        );
+        $router->delete(
+            $container->get('account.manager.permission') . '/{permission:\d+}/{role:\d+}',
+            PermissionDeleteRoleAction::class,
+            'account.manager.permission.deleteRole'
+        );
     }
 }

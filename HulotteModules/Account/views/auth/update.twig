@@ -1,0 +1,13 @@
+{% extends '@account/dashboard/layout.twig' %}
+
+{% block title "Modifier ses informations" %}
+
+{% block body %}
+    <h1>
+        Modifier mes informations
+    </h1>
+    <form action="{{ path('account.auth.update') }}" method="post">
+        {% include '@account/auth/form.twig' %}
+        <button type="submit">Modifier</button>
+    </form>
+{% endblock %}

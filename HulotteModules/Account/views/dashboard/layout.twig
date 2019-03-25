@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block resourcesCss %}{% endblock %}
+	{{ resources_write('css') }}
+</head>
+<body>
+
+<nav>
+	<ul>
+		<li>
+			<a href="{{ path('account.dashboard') }}">Dashboard</a>
+		</li>
+		{{ dashboard_menu() }}
+		<li>
+			<a href="{{ path('account.auth.logout') }}">Se déconnecter</a>
+		</li>
+	</ul>
+</nav>
+<div>
+    {% if flash('success') %}
+        <div>
+            {{ flash('success') }}
+        </div>
+    {%  endif %}
+
+    {% if flash('error') %}
+        <div>
+            {{ flash('error') }}
+        </div>
+    {%  endif %}
+
+    {% block body %}{% endblock %}
+</div>
+
+{% block resourcesJs %}{% endblock %}
+{{ resources_write('js') }}
+</body>
+</html>
