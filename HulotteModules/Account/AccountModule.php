@@ -55,11 +55,13 @@ class AccountModule extends Module
     /**
      * AccountModule constructor
      * @param ContainerInterface $container
+     * @param DashboardExtension $dashboardExtension
      * @param RendererInterface $renderer
      * @param Router $router
      */
     public function __construct(
         ContainerInterface $container,
+        DashboardExtension $dashboardExtension,
         RendererInterface $renderer,
         Router $router
     ) {
