@@ -10,17 +10,24 @@ use Hulotte\Twig\FormExtension;
  *
  * @package Tests\Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Twig\FormExtension
  */
 class FormExtensionTest extends TestCase
 {
+    /**
+     * @var FormExtension
+     */
     private $formExtension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->formExtension = new FormExtension();
     }
 
-    public function testTextInput()
+    /**
+     * @covers ::fieldInput
+     */
+    public function testTextInput(): void
     {
         $html = $this->formExtension->fieldInput([], 'name', 'Your name');
 
@@ -32,7 +39,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextInputWithoutLabel()
+    /**
+     * @covers ::fieldInput
+     */
+    public function testTextInputWithoutLabel(): void
     {
         $html = $this->formExtension->fieldInput([], 'name');
 
@@ -43,7 +53,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextInputWithValue()
+    /**
+     * @covers ::fieldInput
+     */
+    public function testTextInputWithValue(): void
     {
         $html = $this->formExtension->fieldInput([], 'name', 'Your name', 'Sébastien');
 
@@ -55,7 +68,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextInputWithError()
+    /**
+     * @covers ::fieldInput
+     */
+    public function testTextInputWithError(): void
     {
         $html = $this->formExtension->fieldInput(
             ['errors' => ['name' => 'This field has an error.']],
@@ -73,7 +89,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextInputWithErrorAndClass()
+    /**
+     * @covers ::fieldInput
+     */
+    public function testTextInputWithErrorAndClass(): void
     {
         $html = $this->formExtension->fieldInput(
             ['errors' => ['name' => 'This field has an error.']],
@@ -92,7 +111,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextInputWithClass()
+    /**
+     * @covers ::fieldInput
+     */
+    public function testTextInputWithClass(): void
     {
         $html = $this->formExtension->fieldInput([], 'name', 'Your name', null, ['class' => 'testClass']);
 
@@ -104,7 +126,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testEmailInput()
+    /**
+     * @covers ::fieldInput
+     */
+    public function testEmailInput(): void
     {
         $html = $this->formExtension->fieldInput([], 'name', 'Your name', null, [
             'type' => 'email'
@@ -118,7 +143,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextarea()
+    /**
+     * @covers ::fieldTextarea
+     */
+    public function testTextarea(): void
     {
         $html = $this->formExtension->fieldTextarea([], 'description', 'Description');
 
@@ -130,7 +158,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextareaWithoutLabel()
+    /**
+     * @covers ::fieldTextarea
+     */
+    public function testTextareaWithoutLabel(): void
     {
         $html = $this->formExtension->fieldTextarea([], 'description');
 
@@ -141,7 +172,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextareaWithValue()
+    /**
+     * @covers ::fieldTextarea
+     */
+    public function testTextareaWithValue(): void
     {
         $html = $this->formExtension->fieldTextarea([], 'description', 'Description', 'C\'est un test.');
 
@@ -153,7 +187,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextareaWithError()
+    /**
+     * @covers ::fieldTextarea
+     */
+    public function testTextareaWithError(): void
     {
         $html = $this->formExtension->fieldTextarea(
             ['errors' => ['description' => 'This field has an error.']],
@@ -170,7 +207,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testTextareaWithClass()
+    /**
+     * @covers ::fieldTextarea
+     */
+    public function testTextareaWithClass(): void
     {
         $html = $this->formExtension->fieldTextarea([], 'description', 'Description', null, ['class' => 'testClass']);
 
@@ -182,7 +222,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testSelect()
+    /**
+     * @covers ::fieldSelect
+     */
+    public function testSelect(): void
     {
         $html = $this->formExtension->fieldSelect([], 'categories', 'Catégories', null, [
             'options' => [1 => 'Développement', 2 => 'Communication']
@@ -199,7 +242,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testSelectWithoutLabel()
+    /**
+     * @covers ::fieldSelect
+     */
+    public function testSelectWithoutLabel(): void
     {
         $html = $this->formExtension->fieldSelect([], 'categories', null, null, [
             'options' => [1 => 'Développement', 2 => 'Communication']
@@ -215,7 +261,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testSelectWithErrors()
+    /**
+     * @covers ::fieldSelect
+     */
+    public function testSelectWithErrors(): void
     {
         $html = $this->formExtension->fieldSelect(
             ['errors' => ['categories' => 'This field has an error.']],
@@ -239,7 +288,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testSelectWithSelectedValue()
+    /**
+     * @covers ::fieldSelect
+     */
+    public function testSelectWithSelectedValue(): void
     {
         $html = $this->formExtension->fieldSelect([], 'categories', 'Catégories', 1, [
             'options' => [1 => 'Développement', 2 => 'Communication']
@@ -256,7 +308,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testRadio()
+    /**
+     * @covers ::fieldRadio
+     */
+    public function testRadio(): void
     {
         $html = $this->formExtension->fieldRadio([], 'civility', 'Civilité', null, [
             'radios' => ['Mme' => 'Mme', 'M.' => 'M.']
@@ -277,7 +332,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testRadioWithoutTitle()
+    /**
+     * @covers ::fieldRadio
+     */
+    public function testRadioWithoutTitle(): void
     {
         $html = $this->formExtension->fieldRadio([], 'civility', null, null, [
             'radios' => ['Mme' => 'Mme', 'M.' => 'M.']
@@ -297,7 +355,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testRadioWithCheckedValue()
+    /**
+     * @covers ::fieldRadio
+     */
+    public function testRadioWithCheckedValue(): void
     {
         $html = $this->formExtension->fieldRadio([], 'civility', 'Civilité', 'Mme', [
             'radios' => ['Mme' => 'Mme', 'M.' => 'M.']
@@ -318,7 +379,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testRadioWithError()
+    /**
+     * @covers ::fieldRadio
+     */
+    public function testRadioWithError(): void
     {
         $html = $this->formExtension->fieldRadio(
             ['errors' => ['civility' => 'This field has an error.']],
@@ -346,7 +410,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testCheckbox()
+    /**
+     * @covers ::fieldCheckbox
+     */
+    public function testCheckbox(): void
     {
         $html = $this->formExtension->fieldCheckbox([], 'categories', 'Catégories', null, [
             'checkboxes' => [1 => 'Développement', 2 => 'Communication']
@@ -367,7 +434,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testCheckboxWithoutTitle()
+    /**
+     * @covers ::fieldCheckbox
+     */
+    public function testCheckboxWithoutTitle(): void
     {
         $html = $this->formExtension->fieldCheckbox([], 'categories', null, null, [
             'checkboxes' => [1 => 'Développement', 2 => 'Communication']
@@ -387,7 +457,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testCheckboxWithError()
+    /**
+     * @covers ::fieldCheckbox
+     */
+    public function testCheckboxWithError(): void
     {
         $html = $this->formExtension->fieldCheckbox(
             ['errors' => ['categories' => 'This field has an error.']],
@@ -415,7 +488,10 @@ class FormExtensionTest extends TestCase
         $this->assertEquals($assert, $html);
     }
 
-    public function testCheckboxWithChecked()
+    /**
+     * @covers ::fieldCheckbox
+     */
+    public function testCheckboxWithChecked(): void
     {
         $html = $this->formExtension->fieldCheckbox([], 'categories', 'Catégories', [1, 2], [
             'checkboxes' => [1 => 'Développement', 2 => 'Communication']

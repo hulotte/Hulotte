@@ -13,18 +13,28 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Database
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Database\TableStatement
  */
 class TableStatementTest extends TestCase
 {
+    /**
+     * @var Trait_TableStatement
+     */
     private $tableStatement;
 
-    public function setUp()
+    /**
+     * @throws \ReflectionException
+     */
+    public function setUp(): void
     {
         $this->tableStatement = $this->getObjectForTrait(TableStatement::class);
         $this->tableStatement->table = 'test';
     }
 
-    public function testAllStatement()
+    /**
+     * @covers ::allStatement
+     */
+    public function testAllStatement(): void
     {
         $response = $this->tableStatement->allStatement();
 
@@ -32,7 +42,10 @@ class TableStatementTest extends TestCase
         $this->assertEquals('SELECT * FROM test', (string)$response);
     }
 
-    public function testCountStatemen()
+    /**
+     * @covers ::countStatement
+     */
+    public function testCountStatement(): void
     {
         $response = $this->tableStatement->countStatement();
 

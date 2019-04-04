@@ -3,7 +3,10 @@
 namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Psr\Http\Server\RequestHandlerInterface;
 use Hulotte\{
     Exceptions\CsrfException,
@@ -16,21 +19,37 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\CsrfMiddleware
  */
 class CsrfMiddlewareTest extends TestCase
 {
+    /**
+     * @var MockObject
+     */
     private $handle;
+
+    /**
+     * @var CsrfMiddleware
+     */
     private $middleware;
+
+    /**
+     * @var array
+     */
     private $session;
-    
-    public function setUp()
+
+    public function setUp(): void
     {
         $this->session = [];
         $dictionary = $this->createMock(Dictionary::class);
         $this->middleware = new CsrfMiddleware($this->session, $dictionary);
     }
 
-    public function testGetRequestPass()
+    /**
+     * @covers ::process
+     * @throws \Exception
+     */
+    public function testGetRequestPass(): void
     {
         $this->getHandle()->expects($this->once())
             ->method('handle');
@@ -39,7 +58,12 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testBlockPostRequestWithoutCsrf()
+    /**
+     * @covers ::process
+     * @expectedException CsrfException
+     * @throws \Exception
+     */
+    public function testBlockPostRequestWithoutCsrf(): void
     {
         $this->getHandle()->expects($this->never())
             ->method('handle');
@@ -49,7 +73,11 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testLetPostWithTockenPass()
+    /**
+     * @covers ::generateToken
+     * @throws \Exception
+     */
+    public function testLetPostWithTockenPass(): void
     {
         $this->getHandle()->expects($this->once())
             ->method('handle');
@@ -60,7 +88,12 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testBlockPostRequestWithInvalidCsrf()
+    /**
+     * @covers ::process
+     * @expectedException CsrfException
+     * @throws \Exception
+     */
+    public function testBlockPostRequestWithInvalidCsrf(): void
     {
         $this->getHandle()->expects($this->never())
             ->method('handle');
@@ -72,7 +105,12 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testLetPostWithTockenPassOnce()
+    /**
+     * @covers ::process
+     * @expectedException CsrfException
+     * @throws \Exception
+     */
+    public function testLetPostWithTockenPassOnce(): void
     {
         $this->getHandle()->expects($this->once())
             ->method('handle');
@@ -85,7 +123,11 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testLimitTheTokenNumber()
+    /**
+     * @covers ::generateToken
+     * @throws \Exception
+     */
+    public function testLimitTheTokenNumber(): void
     {
         $token = '';
         
@@ -97,7 +139,10 @@ class CsrfMiddlewareTest extends TestCase
         $this->assertEquals($token, $this->getSession()['csrf'][49]);
     }
 
-    private function getHandle()
+    /**
+     * @return MockObject
+     */
+    private function getHandle(): MockObject
     {
         if (!$this->handle) {
             $this->handle = $this->getMockBuilder(RequestHandlerInterface::class)
@@ -108,7 +153,10 @@ class CsrfMiddlewareTest extends TestCase
         return $this->handle;
     }
 
-    private function getSession()
+    /**
+     * @return array
+     */
+    private function getSession(): array
     {
         if (empty($this->session)) {
             $this->session = $this->middleware->getSession();

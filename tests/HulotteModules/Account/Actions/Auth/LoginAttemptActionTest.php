@@ -3,7 +3,10 @@
 namespace Tests\HulotteModules\Account\Actions\Auth;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Hulotte\{
     Renderer\RendererInterface,
     Router,
@@ -21,16 +24,36 @@ use HulotteModules\Account\{
  *
  * @package Tests\HulotteModules\Account\Actions\Auth
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Actions\Auth\LoginAttemptAction
  */
 class LoginAttemptActionTest extends TestCase
 {
+    /**
+     * @var MockObject
+     */
     private $auth;
+
+    /**
+     * @var MockObject
+     */
     private $dictionary;
+
+    /**
+     * @var MockObject
+     */
     private $renderer;
+
+    /**
+     * @var MockObject
+     */
     private $router;
+
+    /**
+     * @var MockObject
+     */
     private $session;
 
-    public function setup()
+    public function setup(): void
     {
         $this->auth = $this->createMock(Auth::class);
         $this->dictionary = $this->createMock(Dictionary::class);
@@ -40,7 +63,7 @@ class LoginAttemptActionTest extends TestCase
         $this->session = $this->createMock(SessionInterface::class);
     }
 
-    public function testLoginWithError()
+    public function testLoginWithError(): void
     {
         $loginAttemptAction = new LoginAttemptAction(
             $this->auth,
@@ -60,7 +83,7 @@ class LoginAttemptActionTest extends TestCase
         $response = call_user_func_array($loginAttemptAction, [$request]);
     }
 
-    public function testLoginWithNoUser()
+    public function testLoginWithNoUser(): void
     {
         $this->auth->method('login')->willReturn(null);
 
@@ -82,7 +105,7 @@ class LoginAttemptActionTest extends TestCase
         $this->assertEquals(301, $response->getStatusCode());
     }
 
-    public function testLogin()
+    public function testLogin(): void
     {
         $this->auth->method('login')
             ->willReturn($this->createMock(UserEntity::class));

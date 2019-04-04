@@ -19,13 +19,21 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\DispatcherMiddleware
  */
 class DispatcherMiddlewareTest extends TestCase
 {
+    /**
+     * @var DispatcherMiddleware
+     */
     private $middleware;
+
+    /**
+     * @var Router
+     */
     private $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         $builder = new ContainerBuilder();
         $dictionary = $this->createMock(Dictionary::class);
@@ -34,7 +42,11 @@ class DispatcherMiddlewareTest extends TestCase
         $this->router = new Router($containerMock);
     }
 
-    public function testIfNoRouteMatch()
+    /**
+     * @covers ::process
+     * @throws \Exception
+     */
+    public function testIfNoRouteMatch(): void
     {
         $this->router->get('/fake', function () {
             return 'Hello-world';
@@ -53,7 +65,11 @@ class DispatcherMiddlewareTest extends TestCase
         $this->middleware->process($request, $handle);
     }
 
-    public function testIfRouteMatch()
+    /**
+     * @covers ::process
+     * @throws \Exception
+     */
+    public function testIfRouteMatch(): void
     {
         $this->router->get('/test', function () {
             return 'Hello-world';

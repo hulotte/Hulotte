@@ -3,7 +3,10 @@
 namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Psr\{
     Container\ContainerInterface,
     Http\Server\MiddlewareInterface,
@@ -15,15 +18,41 @@ use Hulotte\{
     Middlewares\RestrictedRouteMiddleware
 };
 
+/**
+ * Class RestrictedRouteMiddlewareTest
+ *
+ * @package Tests\Hulotte\Middlewares
+ * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\RestrictedRouteMiddleware
+ */
 class RestrictedRouteMiddlewareTest extends TestCase
 {
+    /**
+     * @var MockObject
+     */
     private $auth;
+
+    /**
+     * @var MockObject
+     */
     private $container;
+
+    /**
+     * @var MockObject
+     */
     private $handle;
+
+    /**
+     * @var RestrictedRouteMiddleware
+     */
     private $middleware;
+
+    /**
+     * @var MockObject
+     */
     private $middlewareResponse;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->auth = $this->createMock(AuthInterface::class);
         $this->container = $this->createMock(ContainerInterface::class);
@@ -35,7 +64,12 @@ class RestrictedRouteMiddlewareTest extends TestCase
         );
     }
 
-    public function testNotRestriction()
+    /**
+     * @covers ::process
+     * @throws ForbiddenException
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testNotRestriction(): void
     {
         $request = new ServerRequest('GET', '/test');
         $this->getHandle()->expects($this->once())->method('handle');
@@ -43,7 +77,12 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testWithRestriction()
+    /**
+     * @covers ::process
+     * @throws ForbiddenException
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testWithRestriction(): void
     {
         $request = new ServerRequest('GET', '/restricted');
 
@@ -56,7 +95,12 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testWithRestrictionAndPermission()
+    /**
+     * @covers ::process
+     * @throws ForbiddenException
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testWithRestrictionAndPermission(): void
     {
         $request = new ServerRequest('GET', '/with-permission');
 
@@ -69,7 +113,12 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testWithRestrictionAndPermissionFail()
+    /**
+     * @covers ::process
+     * @throws ForbiddenException
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testWithRestrictionAndPermissionFail(): void
     {
         $request = new ServerRequest('GET', '/with-permission');
 
@@ -84,7 +133,12 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testWithRestrictionAndMultiplePermission()
+    /**
+     * @covers ::process
+     * @throws ForbiddenException
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testWithRestrictionAndMultiplePermission(): void
     {
         $request = new ServerRequest('GET', '/multiple-permission');
 
@@ -97,7 +151,10 @@ class RestrictedRouteMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    private function getHandle()
+    /**
+     * @return MockObject
+     */
+    private function getHandle(): MockObject
     {
         if (!$this->handle) {
             $this->handle = $this->getMockBuilder(RequestHandlerInterface::class)
@@ -108,7 +165,10 @@ class RestrictedRouteMiddlewareTest extends TestCase
         return $this->handle;
     }
 
-    private function getMiddlewareResponse()
+    /**
+     * @return MockObject
+     */
+    private function getMiddlewareResponse(): MockObject
     {
         if (!$this->middlewareResponse) {
             $this->middlewareResponse = $this->getMockBuilder(MiddlewareInterface::class)

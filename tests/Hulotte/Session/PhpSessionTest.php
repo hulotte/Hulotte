@@ -10,31 +10,44 @@ use Hulotte\Session\PhpSession;
  *
  * @package Tests\Hulotte\Session
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Session\PhpSession
  */
 class PhpSessionTest extends TestCase
 {
+    /**
+     * @var PhpSession
+     */
     private $phpSession;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->phpSession = new PhpSession();
     }
 
-    public function testSet()
+    /**
+     * @covers ::set
+     */
+    public function testSet(): void
     {
         $this->phpSession->set('test', 'Le Test');
 
         $this->assertEquals('Le Test', $_SESSION['test']);
     }
 
-    public function testGet()
+    /**
+     * @covers ::get
+     */
+    public function testGet(): void
     {
         $test = $this->phpSession->get('test');
 
         $this->assertEquals('Le Test', $test);
     }
 
-    public function testDelete()
+    /**
+     * @covers ::delete
+     */
+    public function testDelete(): void
     {
         $this->phpSession->delete('test');
 

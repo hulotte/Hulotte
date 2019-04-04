@@ -3,7 +3,10 @@
 namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Psr\Http\Server\RequestHandlerInterface;
 use Hulotte\{
     Exceptions\ForbiddenException,
@@ -18,18 +21,46 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\ForbiddenMiddleware
  */
 class ForbiddenMiddlewareTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private $dashboardPath = '/dashboard';
+
+    /**
+     * @var MockObject
+     */
     private $dictionary;
+
+    /**
+     * @var MockObject
+     */
     private $handle;
+
+    /**
+     * @var string
+     */
     private $loginPath = '/login';
+
+    /**
+     * @var ForbiddenMiddleware
+     */
     private $middleware;
+
+    /**
+     * @var ServerRequest
+     */
     private $request;
+
+    /**
+     * @var PhpSession
+     */
     private $session;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->dictionary = $this->createMock(Dictionary::class);
         $this->request = new ServerRequest('GET', '/test');
@@ -45,7 +76,10 @@ class ForbiddenMiddlewareTest extends TestCase
         );
     }
 
-    public function testNoAuthException()
+    /**
+     * @covers ::process
+     */
+    public function testNoAuthException(): void
     {
         $this->handle->method('handle')
             ->willThrowException($this->createMock(NoAuthException::class));
@@ -57,7 +91,10 @@ class ForbiddenMiddlewareTest extends TestCase
         $this->assertEquals('/test', $this->session->get('account.auth.redirect'));
     }
 
-    public function testForbiddenException()
+    /**
+     * @covers ::process
+     */
+    public function testForbiddenException(): void
     {
         $this->handle->method('handle')
             ->willThrowException($this->createMock(ForbiddenException::class));

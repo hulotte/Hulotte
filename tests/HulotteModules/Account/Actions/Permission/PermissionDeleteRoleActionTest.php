@@ -20,10 +20,11 @@ use Tests\DatabaseTestCase;
  *
  * @package Tests\HulotteModules\Account\Actions\Permission
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Actions\Permission\PermissionDeleteRoleAction
  */
 class PermissionDeleteRoleActionTest extends DatabaseTestCase
 {
-    public function testDeleteRole()
+    public function testDeleteRole(): void
     {
         $statementRole = 'CREATE TABLE role (id INTEGER PRIMARYKEY AUTO_INCREMENT, label VARCHAR(255))';
         $statementPermission = 'CREATE TABLE permission (id INTEGER PRIMARYKEY AUTO_INCREMENT, label VARCHAR(255))';

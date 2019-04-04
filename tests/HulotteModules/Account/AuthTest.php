@@ -20,13 +20,21 @@ use HulotteModules\Account\{
  *
  * @package Tests\HulotteModules\Account
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Auth
  */
 class AuthTest extends TestCase
 {
+    /**
+     * @var PhpSession
+     */
     private $session;
+
+    /**
+     * @var UserEntity
+     */
     private $userEntity;
 
-    public function setUp()
+    public function setUp(): void
     {
         $userHash = 1 . '---' . password_hash('email@email.comclement', PASSWORD_DEFAULT);
         $this->session = new PhpSession();
@@ -38,7 +46,11 @@ class AuthTest extends TestCase
         $this->userEntity->password = password_hash('test', PASSWORD_DEFAULT);
     }
 
-    public function testGetUser()
+    /**
+     * @covers ::getUser
+     * @throws NoAuthException
+     */
+    public function testGetUser(): void
     {
         $userTable = $this->createMock(UserTable::class);
         $userTable->method('find')->willReturn($this->userEntity);
@@ -49,7 +61,10 @@ class AuthTest extends TestCase
         $this->assertInstanceOf(UserEntity::class, $auth->getUser());
     }
 
-    public function testLogin()
+    /**
+     * @covers ::login
+     */
+    public function testLogin(): void
     {
         $userTable = $this->createMock(UserTable::class);
         $userTable->method('findBy')->willReturn($this->userEntity);
@@ -64,7 +79,10 @@ class AuthTest extends TestCase
         $this->assertInstanceOf(UserEntity::class, $user);
     }
 
-    public function testLogout()
+    /**
+     * @covers ::logout
+     */
+    public function testLogout(): void
     {
         $userTable = $this->createMock(UserTable::class);
         $userTable->method('find')->willReturn($this->userEntity);
@@ -76,7 +94,11 @@ class AuthTest extends TestCase
         $this->assertNull($this->session->get('auth.user'));
     }
 
-    public function testHasRole()
+    /**
+     * @covers ::hasRole
+     * @throws NoAuthException
+     */
+    public function testHasRole(): void
     {
         $this->userEntity->method('hasRole')
             ->willReturn(true);
@@ -91,7 +113,11 @@ class AuthTest extends TestCase
         $this->assertTrue($auth->hasRole('test'));
     }
 
-    public function testHasNoRole()
+    /**
+     * @covers ::hasRole
+     * @throws NoAuthException
+     */
+    public function testHasNoRole(): void
     {
         $this->userEntity->method('hasRole')
             ->willReturn(false);
@@ -106,7 +132,12 @@ class AuthTest extends TestCase
         $this->assertFalse($auth->hasRole('test'));
     }
 
-    public function testHasNoRoleAndNotConnected()
+    /**
+     * @covers ::hasRole
+     * @expectedException NoAuthException
+     * @throws NoAuthException
+     */
+    public function testHasNoRoleAndNotConnected(): void
     {
         $this->userEntity->method('hasRole')
             ->willReturn(false);
@@ -126,7 +157,11 @@ class AuthTest extends TestCase
         $auth->hasRole('test');
     }
 
-    public function testHasPermission()
+    /**
+     * @covers ::hasPermission
+     * @throws NoAuthException
+     */
+    public function testHasPermission(): void
     {
         $this->userEntity->method('hasPermission')
             ->willReturn(true);
@@ -141,7 +176,11 @@ class AuthTest extends TestCase
         $this->assertTrue($auth->hasPermission('test'));
     }
 
-    public function testHasMultiplePermission()
+    /**
+     * @covers ::hasPermission
+     * @throws NoAuthException
+     */
+    public function testHasMultiplePermission(): void
     {
         $this->userEntity->method('hasPermission')
             ->willReturn(true);
@@ -156,7 +195,11 @@ class AuthTest extends TestCase
         $this->assertTrue($auth->hasPermission(['test', 'test2']));
     }
 
-    public function testHasNoPermission()
+    /**
+     * @covers ::hasPermission
+     * @throws NoAuthException
+     */
+    public function testHasNoPermission(): void
     {
         $this->userEntity->method('hasPermission')
             ->willReturn(false);
@@ -171,7 +214,12 @@ class AuthTest extends TestCase
         $this->assertFalse($auth->hasPermission('test'));
     }
 
-    public function testHasNoPermissionAndNotConnected()
+    /**
+     * @covers ::hasPermission
+     * @expectedException NoAuthException
+     * @throws NoAuthException
+     */
+    public function testHasNoPermissionAndNotConnected(): void
     {
         $this->userEntity->method('hasPermission')
             ->willReturn(false);

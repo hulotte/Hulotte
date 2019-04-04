@@ -13,10 +13,14 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Twig\PaginatorExtension
  */
 class PaginatorExtensionTest extends TestCase
 {
-    public function testFirstLink()
+    /**
+     * @covers ::paginatorLinks
+     */
+    public function testFirstLink(): void
     {
         $records = [
             'data1', 'data2', 'data3,'
@@ -35,7 +39,10 @@ class PaginatorExtensionTest extends TestCase
         $this->assertEquals($html, $paginatorExtension->paginatorLinks($paginator, $path));
     }
 
-    public function testLastLink()
+    /**
+     * @covers ::paginatorLinks
+     */
+    public function testLastLink(): void
     {
         $records = [
             'data1', 'data2', 'data3,'
@@ -54,7 +61,10 @@ class PaginatorExtensionTest extends TestCase
         $this->assertEquals($html, $paginatorExtension->paginatorLinks($paginator, $path));
     }
 
-    public function testMiddleLink()
+    /**
+     * @covers ::paginatorLinks
+     */
+    public function testMiddleLink(): void
     {
         $records = [
             'data1', 'data2', 'data3,'

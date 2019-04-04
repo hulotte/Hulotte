@@ -13,32 +13,45 @@ use Hulotte\Session\{
  *
  * @package Tests\Hulotte\Session
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Session\MessageFlash
  */
 class MessageFlashTest extends TestCase
 {
+    /**
+     * @var MessageFlash
+     */
     private $messageFlash;
 
-    public function setUp()
+    public function setUp(): void
     {
         $session = new PhpSession();
         $this->messageFlash = new MessageFlash($session);
     }
 
-    public function testSuccess()
+    /**
+     * @covers ::success
+     */
+    public function testSuccess(): void
     {
         $this->messageFlash->success('Success message');
 
         $this->assertEquals('Success message', $this->messageFlash->get('success'));
     }
 
-    public function testError()
+    /**
+     * @covers ::error
+     */
+    public function testError(): void
     {
         $this->messageFlash->error('Error message');
 
         $this->assertEquals('Error message', $this->messageFlash->get('error'));
     }
 
-    public function testDeleteFlashAfterGettingIt()
+    /**
+     * @covers ::success
+     */
+    public function testDeleteFlashAfterGettingIt(): void
     {
         $this->messageFlash->success('Bravo');
 

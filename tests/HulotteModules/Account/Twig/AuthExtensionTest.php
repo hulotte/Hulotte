@@ -13,10 +13,15 @@ use HulotteModules\Account\{
  *
  * @package Tests\HulotteModules\Account\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Twig\AuthExtension
  */
 class AuthExtensionTest extends TestCase
 {
-    public function testHasRole()
+    /**
+     * @covers ::hasRole
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testHasRole(): void
     {
         $auth = $this->createMock(Auth::class);
         $auth->method('hasRole')
@@ -27,7 +32,11 @@ class AuthExtensionTest extends TestCase
         $this->assertTrue($authExtension->hasRole('test'));
     }
 
-    public function testHasPermission()
+    /**
+     * @covers ::hasPermission
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testHasPermission(): void
     {
         $auth = $this->createMock(Auth::class);
         $auth->method('hasPermission')
@@ -38,7 +47,11 @@ class AuthExtensionTest extends TestCase
         $this->assertTrue($authExtension->hasPermission('test'));
     }
 
-    public function testHasMultiplePermission()
+    /**
+     * @covers ::hasPermission
+     * @throws \Hulotte\Exceptions\NoAuthException
+     */
+    public function testHasMultiplePermission(): void
     {
         $auth = $this->createMock(Auth::class);
         $auth->method('hasPermission')

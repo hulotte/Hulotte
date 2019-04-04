@@ -3,7 +3,10 @@
 namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Psr\Http\Server\RequestHandlerInterface;
 use Hulotte\{
     Middlewares\NotFoundMiddleware,
@@ -15,19 +18,30 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\NotFoundMiddleware
  */
 class NotFoundMiddlewareTest extends TestCase
 {
+    /**
+     * @var MockObject
+     */
     private $handle;
+
+    /**
+     * @var NotFoundMiddleware
+     */
     private $middleware;
 
-    public function setUp()
+    public function setUp(): void
     {
         $dictionary = $this->createMock(Dictionary::class);
         $this->middleware = new NotFoundMiddleware($dictionary);
     }
 
-    public function testRedirect()
+    /**
+     * @covers ::process
+     */
+    public function testRedirect(): void
     {
         $request = new ServerRequest('GET', '/test');
         $response = $this->middleware->process($request, $this->getHandle());
@@ -35,7 +49,10 @@ class NotFoundMiddlewareTest extends TestCase
         $this->assertEquals(404, $response->getStatusCode());
     }
 
-    public function testNoNext()
+    /**
+     * @covers ::process
+     */
+    public function testNoNext(): void
     {
         $request = new ServerRequest('GET', '/test');
         $this->getHandle()->expects($this->never())
@@ -44,7 +61,10 @@ class NotFoundMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    private function getHandle()
+    /**
+     * @return MockObject
+     */
+    private function getHandle(): MockObject
     {
         if (!$this->handle) {
             $this->handle = $this->getMockBuilder(RequestHandlerInterface::class)

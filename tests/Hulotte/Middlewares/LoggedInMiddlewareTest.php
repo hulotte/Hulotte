@@ -4,6 +4,7 @@ namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\{
     Container\ContainerInterface,
     Http\Server\RequestHandlerInterface
@@ -20,18 +21,26 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\LoggedInMiddleware
  */
 class LoggedInMiddlewareTest extends TestCase
 {
+    /**
+     * @var ObjectProphecy
+     */
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->container->has('Hulotte\Auth\AuthInterface')->willReturn(true);
     }
 
-    public function testSuccess()
+    /**
+     * @covers ::process
+     * @throws NoAuthException
+     */
+    public function testSuccess(): void
     {
         $auth = $this->createMock(AuthInterface::class);
         $auth->method('getUser')
@@ -50,7 +59,12 @@ class LoggedInMiddlewareTest extends TestCase
         $middleware->process($request, $handle);
     }
 
-    public function testException()
+    /**
+     * @covers ::process
+     * @expectedException NoAuthException
+     * @throws NoAuthException
+     */
+    public function testException(): void
     {
         $auth = $this->createMock(AuthInterface::class);
         $auth->method('getUser')
