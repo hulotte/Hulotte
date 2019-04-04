@@ -2,6 +2,10 @@
 
 namespace Hulotte\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 use Hulotte\Services\ResourceManager;
 
 /**
@@ -10,7 +14,7 @@ use Hulotte\Services\ResourceManager;
  * @package Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class ResourceManagerExtension extends \Twig_Extension
+class ResourceManagerExtension extends AbstractExtension
 {
     /**
      * @var ResourceManager
@@ -33,8 +37,8 @@ class ResourceManagerExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('resources_add', [$this, 'add'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('resources_write', [$this, 'write'], ['is_safe' => ['html']]),
+            new TwigFunction('resources_add', [$this, 'add'], ['is_safe' => ['html']]),
+            new TwigFunction('resources_write', [$this, 'write'], ['is_safe' => ['html']]),
         ];
     }
 

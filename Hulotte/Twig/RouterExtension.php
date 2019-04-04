@@ -2,6 +2,10 @@
 
 namespace Hulotte\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 use Hulotte\Router;
 
 /**
@@ -10,7 +14,7 @@ use Hulotte\Router;
  * @package Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class RouterExtension extends \Twig_Extension
+class RouterExtension extends AbstractExtension
 {
     /**
      * @var Router
@@ -33,7 +37,7 @@ class RouterExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('path', [$this, 'pathFor']),
+            new TwigFunction('path', [$this, 'pathFor']),
         ];
     }
 

@@ -14,8 +14,8 @@ use Hulotte\Database\Database;
  */
 class DatabaseTestCase extends TestCase
 {
-    private $database;
-    private $pdo;
+    protected $database;
+    protected $pdo;
 
     public function setUp()
     {

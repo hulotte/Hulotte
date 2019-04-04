@@ -2,6 +2,10 @@
 
 namespace Hulotte\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 use Hulotte\Session\MessageFlash;
 
 /**
@@ -10,7 +14,7 @@ use Hulotte\Session\MessageFlash;
  * @package Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class MessageFlashExtension extends \Twig_Extension
+class MessageFlashExtension extends AbstractExtension
 {
     /**
      * @var MessageFlash
@@ -32,7 +36,7 @@ class MessageFlashExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('flash', [$this, 'getFlash']),
+            new TwigFunction('flash', [$this, 'getFlash']),
         ];
     }
 

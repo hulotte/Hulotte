@@ -103,11 +103,11 @@ class AccountUpdateAction
         $this->router = $router;
         $this->userTable = $userTable;
     }
-
+    
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface|string
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function __invoke(ServerRequestInterface $request)
     {

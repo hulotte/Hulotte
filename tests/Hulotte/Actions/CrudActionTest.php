@@ -15,11 +15,7 @@ use Hulotte\{
     Services\Dictionary,
     Session\MessageFlash
 };
-use Tests\{
-    DatabaseTestCase,
-    Hulotte\Actions\TestEntity,
-    Hulotte\Actions\TestTable
-};
+use Tests\DatabaseTestCase;
 
 /**
  * Class CrudActionTest

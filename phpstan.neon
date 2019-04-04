@@ -2,4 +2,4 @@ parameters:
     level: 5
     paths:
         - Hulotte
-    excludes_analyse:
+        - HulotteModules

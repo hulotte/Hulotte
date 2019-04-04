@@ -87,7 +87,8 @@ class PermissionAddRoleAction
 
     /**
      * @param ServerRequestInterface $request
-     * @return ResponseInterface|string
+     * @return ResponseInterface
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function __invoke(ServerRequestInterface $request)
     {

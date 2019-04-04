@@ -8,7 +8,6 @@ use Psr\{
     Http\Message\ServerRequestInterface
 };
 use Hulotte\{
-    Actions\RouterAwareAction,
     Database\Hydrator,
     Database\StatementBuilder,
     Renderer\RendererInterface,
@@ -121,6 +120,7 @@ class CrudAction
 
     /**
      * @param ServerRequestInterface $request
+     * @return ResponseInterface|string
      */
     public function __invoke(ServerRequestInterface $request)
     {

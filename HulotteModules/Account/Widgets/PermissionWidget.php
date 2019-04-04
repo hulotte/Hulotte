@@ -38,8 +38,8 @@ class PermissionWidget implements WidgetInterface
 
     /**
      * Render the dashboard
-     * @return null|string
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @return string|null
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function render(): ?string
     {
@@ -52,8 +52,8 @@ class PermissionWidget implements WidgetInterface
 
     /**
      * Render the dashboard menu
-     * @return null|string
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @return string|null
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function renderMenu(): ?string
     {

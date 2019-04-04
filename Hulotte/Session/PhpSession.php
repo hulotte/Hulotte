@@ -24,7 +24,7 @@ class PhpSession implements SessionInterface, \ArrayAccess
      * Get an information on session
      * @param string $key
      * @param null $default
-     * @return null|array
+     * @return null|string|array
      */
     public function get(string $key, $default = null)
     {
