@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-// Call autoload
+// Define autoload path
 if (strpos(__DIR__, 'vendor')) {
     $autoloader = explode('vendor', __DIR__)[0] . 'vendor/autoload.php';
 } else {
@@ -10,19 +10,14 @@ if (strpos(__DIR__, 'vendor')) {
 
 require $autoloader;
 
-// Appel du component
 use Symfony\Component\Console\Application;
-use Hulotte\Commands\{
-    InitCommand,
-    ModuleCommand
-};
+use Hulotte\App;
 
-// Déclaration du component
+$container = (new App())->getContainer('dev');
 $application = new Application();
 
-// Ajout des commandes
-$application->add(new InitCommand());
-$application->add(new ModuleCommand());
+foreach ($container->get('commands') as $command) {
+    $application->add(new $command);
+}
 
-// Lancement des commandes
 $application->run();
