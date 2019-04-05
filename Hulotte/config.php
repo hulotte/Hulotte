@@ -9,6 +9,8 @@ use function \DI\env;
 use function \DI\factory;
 use function \DI\get;
 use Hulotte\{
+    Commands\InitCommand,
+    Commands\ModuleCommand,
     Middlewares\CsrfMiddleware,
     Renderer\RendererInterface,
     Renderer\TwigRendererFactory,
@@ -69,6 +71,10 @@ return [
     // Variables
     'accepted.locales' => [
         'en', 'fr'
+    ],
+    'commands' => [
+        InitCommand::class,
+        ModuleCommand::class,
     ],
     'database.host' => env('DATABASE_HOST'),
     'database.name' => env('DATABASE_NAME'),
