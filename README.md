@@ -21,5 +21,12 @@ $ ./vendor/bin/hulotte init
 
 This command will install basics files and folders. It also install App module.
 
+## Commands
+You can create your own command. For that your class must inherit from _Symfony\Component\Console\Command\Command_ and be declared in the config file of your module like this:
+
+```php
+'commands' => DI\add([YourClass::class]),
+```
+
 ## License
 The Hulotte framework is licensed under the MIT license. See [License File](LICENSE) for more information.
