@@ -45,8 +45,8 @@ class App implements RequestHandlerInterface
 
     /**
      * Add new module
-     * @var string $module
      * @return App
+     * @var string $module
      */
     public function addModule(string $module): self
     {
@@ -57,14 +57,18 @@ class App implements RequestHandlerInterface
 
     /**
      * Instanciate the container if not exists and return it
+     * @param null|string $env
      * @return ContainerInterface
      * @throws \Exception
      */
-    public function getContainer(): ContainerInterface
+    public function getContainer(?string $env = null): ContainerInterface
     {
         if ($this->container === null) {
             $builder = new ContainerBuilder();
-            $env = getenv('PROJECT_ENV') ?: 'prod';
+
+            if ($env === null) {
+                $env = getenv('PROJECT_ENV') ?: 'prod';
+            }
 
             $builder->addDefinitions(__DIR__ . '/config.php');
 
@@ -133,7 +137,7 @@ class App implements RequestHandlerInterface
                 $middleware
             );
         }
-        
+
         return $this;
     }
 
