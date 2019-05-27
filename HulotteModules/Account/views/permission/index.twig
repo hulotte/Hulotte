@@ -1,0 +1,51 @@
+{% extends '@account/dashboard/layout.twig' %}
+
+{% block body %}
+    <h1>Gestion des permissions</h1>
+    {% if permissions %}
+        <table>
+            <tr>
+                <th>Label</th>
+                <th>Description</th>
+                <th>Module</th>
+                <th>Rôles</th>
+                <th>Ajouter un rôle</th>
+            </tr>
+            {% for permission in permissions %}
+                <tr>
+                    <th>{{ permission.label }}</th>
+                    <th>{{ permission.description }}</th>
+                    <th>{{ permission.module }}</th>
+                    <th>
+                        <ul>
+                            {% for role in permission.getRolePermission()  %}
+                                <li>
+                                    {{ role.label }}
+                                    <form action="{{ path('account.manager.permission.deleteRole', {permission: permission.id, role: role.id}) }}" method="post"
+                                        onsubmit="return confirm('Etes-vous sûr ?')">
+                                        {{ csrf_input() }}
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button>Supprimer</button>
+                                    </form>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </th>
+                    <th>
+						{% if permission.unsetRoles(roles) %}
+							<form action="{{ path('account.manager.permission.addRole', {id: permission.id}) }}" method="post">
+								{{ csrf_input() }}
+								{{ field_select('role', null, null, {'options': permission.unsetRoles(roles)}) }}
+								<button>Ajouter</button>
+							</form>
+						{% endif %}
+                    </th>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>
+            Pas de permissions.
+        </p>
+    {% endif %}
+{% endblock %}

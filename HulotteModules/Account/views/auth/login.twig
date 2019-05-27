@@ -1,0 +1,12 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+<form action="{{ path('account.auth.login') }}" method="post">
+    {{ csrf_input() }}
+    {{ field_input('email', 'Adresse mail', item.email, {type: 'email'}) }}
+    {{ field_input('password', 'Mot de passe', item.password, {type: 'password'}) }}
+    <button>Se connecter</button>
+</form>
+
+{% endblock %}
