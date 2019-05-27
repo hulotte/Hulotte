@@ -48,6 +48,7 @@ class AccountAction
     /**
      * @param ServerRequestInterface $request
      * @return string
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function __invoke(ServerRequestInterface $request): string
     {

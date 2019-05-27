@@ -11,10 +11,14 @@ use HulotteModules\Account\Twig\DashboardExtension;
  *
  * @package Tests\HulotteModules\Account\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Twig\DashboardExtension
  */
 class DashboardExtensionTest extends TestCase
 {
-    public function testRenderMenu()
+    /**
+     * @covers ::renderMenu
+     */
+    public function testRenderMenu(): void
     {
         $firstWidgets = $this->createMock(WidgetInterface::class);
         $firstWidgets->method('renderMenu')->willReturn('<li>Test</li>');

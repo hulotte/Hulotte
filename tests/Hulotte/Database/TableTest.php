@@ -14,12 +14,16 @@ use Tests\DatabaseTestCase;
  *
  * @package Tests\Hulotte\Database
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Database\Table
  */
 class TableTest extends DatabaseTestCase
 {
+    /**
+     * @var Table
+     */
     private $table;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -28,7 +32,10 @@ class TableTest extends DatabaseTestCase
         $this->table->setTable('test');
     }
 
-    public function testQuery()
+    /**
+     * @covers ::query
+     */
+    public function testQuery(): void
     {
         $this->table->query('INSERT INTO test (id, label) VALUES (1, "hello-world")');
         $verify = $this->getDatabase()->query('SELECT label FROM test WHERE id = 1', true);
@@ -36,7 +43,10 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals('hello-world', $verify['label']);
     }
 
-    public function testQueryPrepare()
+    /**
+     * @covers ::query
+     */
+    public function testQueryPrepare(): void
     {
         $this->table->query(
             'INSERT INTO test (id, label) VALUES (:id, :label)',
@@ -52,7 +62,10 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals('hello-world', $tableResult['label']);
     }
 
-    public function testFind()
+    /**
+     * @covers ::find
+     */
+    public function testFind(): void
     {
         $this->insertData();
         $result = $this->table->find(1);
@@ -60,7 +73,10 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals('hello-world', $result['label']);
     }
 
-    public function testFindBy()
+    /**
+     * @covers ::findBy
+     */
+    public function testFindBy(): void
     {
         $this->insertData();
         $result = $this->table->findBy('id', 1);
@@ -68,27 +84,36 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals('hello-world', $result['label']);
     }
 
-    public function testAll()
+    /**
+     * @covers ::all
+     */
+    public function testAll(): void
     {
         $this->insertData();
         $result = $this->table->all();
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertEquals('hello-world', $result[0]['label']);
         $this->assertEquals('this is a test', $result[1]['label']);
     }
 
-    public function testAllBy()
+    /**
+     * @covers ::allBy
+     */
+    public function testAllBy(): void
     {
         $this->insertData();
         $result = $this->table->allBy('number', 1);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertEquals(2, $result[0]['id']);
         $this->assertEquals(3, $result[1]['id']);
     }
-    
-    public function testInsert()
+
+    /**
+     * @covers ::insert
+     */
+    public function testInsert(): void
     {
         $this->table->insert([
             'id' => 1,
@@ -102,7 +127,10 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals('new test', $result['label']);
     }
 
-    public function testInsertWithTable()
+    /**
+     * @covers ::insert
+     */
+    public function testInsertWithTable(): void
     {
         $this->table->insert([
             'id' => 1,
@@ -115,8 +143,11 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals(1, $result['id']);
         $this->assertEquals('new test', $result['label']);
     }
-    
-    public function testDelete()
+
+    /**
+     * @covers ::delete
+     */
+    public function testDelete(): void
     {
         $this->insertData();
         $this->table->delete(1);
@@ -125,8 +156,11 @@ class TableTest extends DatabaseTestCase
         
         $this->assertCount(2, $result);
     }
-    
-    public function testUpdate()
+
+    /**
+     * @covers ::update
+     */
+    public function testUpdate(): void
     {
         $this->insertData();
         $test = $this->table->update(1, [
@@ -138,25 +172,34 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals('new label', $result['label']);
     }
 
-    public function testAllList()
+    /**
+     * @covers ::allList
+     */
+    public function testAllList(): void
     {
         $this->insertData();
         $test = $this->table->allList('id', 'label');
 
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
         $this->assertEquals($test[2], 'this is a test');
     }
 
-    public function testAllListWithOnlyOneParameter()
+    /**
+     * @covers ::allList
+     */
+    public function testAllListWithOnlyOneParameter(): void
     {
         $this->insertData();
         $test = $this->table->allList('id');
 
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
         $this->assertEquals($test[0], 1);
     }
 
-    public function testPaginate()
+    /**
+     * @covers ::paginate
+     */
+    public function testPaginate(): void
     {
         $this->insertData();
         $result = $this->table->paginate(
@@ -168,7 +211,10 @@ class TableTest extends DatabaseTestCase
         $this->assertEquals(3, $result->totalPages);
     }
 
-    public function testIsExists()
+    /**
+     * @covers ::isExists
+     */
+    public function testIsExists(): void
     {
         $this->insertData();
         $result = $this->table->isExists(2);
@@ -176,7 +222,10 @@ class TableTest extends DatabaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testIsNotExists()
+    /**
+     * @covers ::isExists
+     */
+    public function testIsNotExists(): void
     {
         $this->insertData();
         $result = $this->table->isExists(4);
@@ -184,7 +233,10 @@ class TableTest extends DatabaseTestCase
         $this->assertFalse($result);
     }
 
-    public function testIsExistsWithNotId()
+    /**
+     * @covers ::isExists
+     */
+    public function testIsExistsWithNotId(): void
     {
         $this->insertData();
         $result = $this->table->isExists('label', 'hello-world');
@@ -192,7 +244,10 @@ class TableTest extends DatabaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testIsNotExistsWithNotId()
+    /**
+     * @covers ::isExists
+     */
+    public function testIsNotExistsWithNotId(): void
     {
         $this->insertData();
         $result = $this->table->isExists('label', 'coucou');
@@ -200,7 +255,10 @@ class TableTest extends DatabaseTestCase
         $this->assertFalse($result);
     }
 
-    private function insertData()
+    /**
+     * Add datas to fake database
+     */
+    private function insertData(): void
     {
         $this->getDatabase()->query('INSERT INTO test (id, label, number) 
             VALUES (1, "hello-world", 2), 

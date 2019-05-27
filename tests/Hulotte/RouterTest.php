@@ -12,12 +12,16 @@ use Hulotte\Router;
  *
  * @package Tests\Hulotte
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Router
  */
 class RouterTest extends TestCase
 {
+    /**
+     * @var Router
+     */
     private $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         $containerMock = $this->createMock(ContainerInterface::class);
         $map = [
@@ -32,7 +36,10 @@ class RouterTest extends TestCase
         $this->router = new Router($containerMock);
     }
 
-    public function testGetMethod()
+    /**
+     * @covers ::get
+     */
+    public function testGetMethod(): void
     {
         $request = new ServerRequest('GET', '/index');
         $this->router->get('/index', function () {
@@ -44,7 +51,10 @@ class RouterTest extends TestCase
         $this->assertEquals('Hello-world', call_user_func($route->getCallback(), [$request]));
     }
 
-    public function testGetMethodIfUrlDoesNotExists()
+    /**
+     * @covers ::get
+     */
+    public function testGetMethodIfUrlDoesNotExists(): void
     {
         $request = new ServerRequest('GET', '/index');
         $this->router->get('/notExist', function () {
@@ -55,7 +65,10 @@ class RouterTest extends TestCase
         $this->assertEquals(null, $route);
     }
 
-    public function testGetMethodWithParameters()
+    /**
+     * @covers ::get
+     */
+    public function testGetMethodWithParameters(): void
     {
         $request = new ServerRequest('GET', '/index/my-slug-3');
         $this->router->get('/index', function () {
@@ -71,7 +84,10 @@ class RouterTest extends TestCase
         $this->assertEquals(['slug' => 'my-slug', 'id' => '3'], $route->getParams());
     }
 
-    public function testGenerateUri()
+    /**
+     * @covers ::generateUri
+     */
+    public function testGenerateUri(): void
     {
         $this->router->get('/index', function () {
             return 'Hello-world';
@@ -84,7 +100,10 @@ class RouterTest extends TestCase
         $this->assertEquals('/index/my-slug-3', $uri);
     }
 
-    public function testGenerateUriWithParams()
+    /**
+     * @covers ::generateUri
+     */
+    public function testGenerateUriWithParams(): void
     {
         $this->router->get('/index', function () {
             return 'Hello-world';
@@ -101,7 +120,10 @@ class RouterTest extends TestCase
         $this->assertEquals('/index/my-slug-3?page=2', $uri);
     }
 
-    public function testCrud()
+    /**
+     * @covers ::crud
+     */
+    public function testCrud(): void
     {
         $requestCreate = new ServerRequest('GET', '/test/create');
         $requestRead = new ServerRequest('GET', '/test/read');

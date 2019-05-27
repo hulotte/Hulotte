@@ -3,5 +3,3 @@ parameters:
     paths:
         - Hulotte
         - HulotteModules
-    excludes_analyse:
-        - HulotteModules/Account/database

@@ -11,17 +11,25 @@ use Hulotte\Services\PasswordService;
  *
  * @package Tests\Hulotte\Services
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Services\PasswordService
  */
 class PasswordServiceTest extends TestCase
 {
+    /**
+     * @var PasswordService
+     */
     private $passwordService;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->passwordService = new PasswordService();
     }
 
-    public function testCreatePassword()
+    /**
+     * @covers ::createPassword
+     * @throws Exception
+     */
+    public function testCreatePassword(): void
     {
         $password = $this->passwordService->createPassword(8);
 
@@ -29,20 +37,33 @@ class PasswordServiceTest extends TestCase
         $this->assertRegExp('/^[a-zA-Z0-9,?;.:\/!&#-_@]+$/', $password);
     }
 
-    public function testCreatePasswordWithFakeSymbol()
+    /**
+     * @covers ::createPassword
+     * @expectedException Exception
+     * @throws Exception
+     */
+    public function testCreatePasswordWithFakeSymbol(): void
     {
         $this->expectException(Exception::class);
         $this->passwordService->createPassword(8, ['fake']);
     }
-    
-    public function testCreatePasswordWithOneSymbol()
+
+    /**
+     * @covers ::createPassword
+     * @throws Exception
+     */
+    public function testCreatePasswordWithOneSymbol(): void
     {
         $password = $this->passwordService->createPassword(8, ['uppercase']);
 
         $this->assertRegExp('/^[A-Z]+$/', $password);
     }
 
-    public function testCreatePasswordWithTwoSymbol()
+    /**
+     * @covers ::createPassword
+     * @throws Exception
+     */
+    public function testCreatePasswordWithTwoSymbol(): void
     {
         $password = $this->passwordService->createPassword(8, ['uppercase', 'number']);
 

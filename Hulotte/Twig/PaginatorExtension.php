@@ -2,6 +2,10 @@
 
 namespace Hulotte\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 use Hulotte\Services\Paginator;
 
 /**
@@ -10,7 +14,7 @@ use Hulotte\Services\Paginator;
  * @package Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class PaginatorExtension extends \Twig_Extension
+class PaginatorExtension extends AbstractExtension
 {
     /**
      * @return array
@@ -18,7 +22,7 @@ class PaginatorExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('paginator_links', [$this, 'paginatorLinks'], ['is_safe' => ['html']])
+            new TwigFunction('paginator_links', [$this, 'paginatorLinks'], ['is_safe' => ['html']])
         ];
     }
 

@@ -9,8 +9,8 @@ use Psr\{
     Http\Server\MiddlewareInterface,
     Http\Server\RequestHandlerInterface
 };
-use HulotteModules\Account\{
-    Auth,
+use Hulotte\{
+    Auth\AuthInterface,
     Exceptions\ForbiddenException
 };
 
@@ -40,25 +40,25 @@ class RestrictedRouteMiddleware implements MiddlewareInterface
     /**
      * RoutePrefixedMiddleware constructor
      * @param ContainerInterface $container
-     * @param array $restrictedPaths
      * @param string $middleware
+     * @param array $restrictedPaths
      */
     public function __construct(
         ContainerInterface $container,
-        array $restrictedPaths,
-        string $middleware
+        string $middleware,
+        array $restrictedPaths
     ) {
         $this->container = $container;
-        $this->restrictedPaths = $restrictedPaths;
         $this->middleware = $middleware;
+        $this->restrictedPaths = $restrictedPaths;
     }
-    
+
     /**
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $next
      * @return ResponseInterface
      * @throws ForbiddenException
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
@@ -71,7 +71,7 @@ class RestrictedRouteMiddleware implements MiddlewareInterface
                 }
 
                 if (strpos($path, $restrictedPath) === 0
-                    && !$this->container->get(Auth::class)->hasPermission($permission)
+                    && !$this->container->get(AuthInterface::class)->hasPermission($permission)
                 ) {
                     throw new ForbiddenException();
                 }

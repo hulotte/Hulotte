@@ -15,12 +15,20 @@ use Tests\DatabaseTestCase;
  *
  * @package Tests\Hulotte\Services
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Services\Validator
  */
 class ValidatorTest extends DatabaseTestCase
 {
+    /**
+     * @var Table
+     */
     private $table;
 
-    public function testRequiredIfSuccess()
+    /**
+     * @covers ::required
+     * @covers ::getErrors
+     */
+    public function testRequiredIfSuccess(): void
     {
         $errors = $this->makeValidator(['name' => 'john', 'content' => 'content'])
             ->required('name', 'content')
@@ -29,7 +37,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $errors);
     }
 
-    public function testRequiredIfFailed()
+    /**
+     * @covers ::required
+     * @covers ::getErrors
+     */
+    public function testRequiredIfFailed(): void
     {
         $errors = $this->makeValidator(['name' => 'john'])
             ->required('name', 'content')
@@ -38,7 +50,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $errors);
     }
 
-    public function testNotEmpty()
+    /**
+     * @covers ::notEmpty
+     * @covers ::getErrors
+     */
+    public function testNotEmpty(): void
     {
         $errors = $this->makeValidator(['name' => 'joe', 'content' => ''])
             ->notEmpty('content')
@@ -47,7 +63,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $errors);
     }
 
-    public function testSlugError()
+    /**
+     * @covers ::slug
+     * @covers ::getErrors
+     */
+    public function testSlugError(): void
     {
         $errors = $this->makeValidator([
             'slug' => 'fAke-slug1',
@@ -63,7 +83,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(3, $errors);
     }
 
-    public function testLength()
+    /**
+     * @covers ::length
+     * @covers ::getErrors
+     */
+    public function testLength(): void
     {
         $params = ['slug' => '123456789'];
 
@@ -82,7 +106,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $test6);
     }
 
-    public function testDateTime()
+    /**
+     * @covers ::dateTime
+     * @covers ::getErrors
+     */
+    public function testDateTime(): void
     {
         $test = $this->makeValidator(['date' => '2012-12-12 11:12:13'])
             ->dateTime('date')->getErrors();
@@ -98,8 +126,12 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $test3);
         $this->assertCount(1, $test4);
     }
-    
-    public function testEmail()
+
+    /**
+     * @covers ::email
+     * @covers ::getErrors
+     */
+    public function testEmail(): void
     {
         $test = $this->makeValidator(['email' => 'test@test.com'])
             ->email('email')->getErrors();
@@ -110,7 +142,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $test2);
     }
 
-    public function testExists()
+    /**
+     * @covers ::exists
+     * @covers ::getErrors
+     */
+    public function testExists(): void
     {
         $this->makeTable();
         $test = $this->makeValidator(['id' => '1'])
@@ -119,7 +155,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $test);
     }
 
-    public function testNotExists()
+    /**
+     * @covers ::notExists
+     * @covers ::getErrors
+     */
+    public function testNotExists(): void
     {
         $this->makeTable();
         $test = $this->makeValidator(['id' => '1'])
@@ -128,7 +168,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $test);
     }
 
-    public function testExistWithNoId()
+    /**
+     * @covers ::exists
+     * @covers ::getErrors
+     */
+    public function testExistWithNoId(): void
     {
         $this->makeTable();
         $test = $this->makeValidator(['name' => 'Sébastien'])
@@ -137,7 +181,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $test);
     }
 
-    public function testExistWithDifferentName()
+    /**
+     * @covers ::exists
+     * @covers ::getErrors
+     */
+    public function testExistWithDifferentName(): void
     {
         $this->makeTable();
         $test = $this->makeValidator(['user_id' => '1'])
@@ -146,7 +194,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $test);
     }
 
-    public function testNotExistWithDifferentName()
+    /**
+     * @covers ::exists
+     * @covers ::getErrors
+     */
+    public function testNotExistWithDifferentName(): void
     {
         $this->makeTable();
         $test = $this->makeValidator(['user_id' => '3'])
@@ -156,7 +208,11 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertEquals('test', (string)$test['user_id']);
     }
 
-    private function makeValidator(array $params)
+    /**
+     * @param array $params
+     * @return Validator
+     */
+    private function makeValidator(array $params): Validator
     {
         $dictionary = $this->createMock(Dictionary::class);
         $dictionary->method('translate')->willReturn('test');
@@ -164,7 +220,7 @@ class ValidatorTest extends DatabaseTestCase
         return new Validator($dictionary, $params);
     }
 
-    private function makeTable()
+    private function makeTable(): void
     {
         $this->getPdo()->exec('CREATE TABLE user
             (id INTEGER PRIMARYKEY AUTO_INCREMENT, name VARCHAR(255))');

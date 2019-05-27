@@ -3,9 +3,7 @@
 use function DI\add;
 use function DI\autowire;
 use function DI\get;
-use Hulotte\Auth\AuthInterface;
 use HulotteModules\Account\{
-    Auth,
     Actions\Dashboard\DashboardAction,
     Middlewares\ForbiddenMiddleware,
     Widgets\AccountWidget,
@@ -16,9 +14,11 @@ use HulotteModules\Account\{
 
 return [
     // Class definitions
-    AuthInterface::class => autowire(Auth::class),
     DashboardAction::class => autowire()->constructorParameter('widgets', get('account.dashboard.widgets')),
     DashboardExtension::class => autowire()->constructor(get('account.dashboard.widgets')),
+    ForbiddenMiddleware::class => autowire()
+        ->constructorParameter('loginPath', get('account.auth.login'))
+        ->constructorParameter('dashboardPath', get('account.dashboard')),
 
     // Permissions
     'restricted.paths' => add([

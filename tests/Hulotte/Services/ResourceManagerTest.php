@@ -10,17 +10,24 @@ use Hulotte\Services\ResourceManager;
  *
  * @package Tests\Hulotte\Services
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Services\ResourceManager
  */
 class ResourceManagerTest extends TestCase
 {
+    /**
+     * @var ResourceManager
+     */
     private $resourceManager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->resourceManager = new ResourceManager();
     }
 
-    public function testAdd()
+    /**
+     * @covers ::add
+     */
+    public function testAdd(): void
     {
         
         $this->resourceManager->add('css', 'path/to/resource.css');
@@ -28,7 +35,10 @@ class ResourceManagerTest extends TestCase
         $this->assertCount(1, $this->resourceManager->getResources()['css']);
     }
 
-    public function testMultipleAdd()
+    /**
+     * @covers ::add
+     */
+    public function testMultipleAdd(): void
     {
         $this->resourceManager->add('css', 'path/to/resource.css');
         $this->resourceManager->add('css', 'path/to/secondResource.css');
@@ -36,7 +46,10 @@ class ResourceManagerTest extends TestCase
         $this->assertCount(2, $this->resourceManager->getResources()['css']);
     }
 
-    public function testMultipleAddWithSameResource()
+    /**
+     * @covers ::add
+     */
+    public function testMultipleAddWithSameResource(): void
     {
         $this->resourceManager->add('css', 'path/to/resource.css');
         $this->resourceManager->add('css', 'path/to/resource.css');
@@ -44,7 +57,10 @@ class ResourceManagerTest extends TestCase
         $this->assertCount(1, $this->resourceManager->getResources()['css']);
     }
 
-    public function testWriteCssResources()
+    /**
+     * @covers ::writeResources
+     */
+    public function testWriteCssResources(): void
     {
         $this->resourceManager->add('css', 'path/to/resource.css');
         $this->resourceManager->add('css', 'path/to/secondResource.css');
@@ -57,14 +73,20 @@ class ResourceManagerTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testWriteWithoutCssResources()
+    /**
+     * @covers ::writeResources
+     */
+    public function testWriteWithoutCssResources(): void
     {
         $result = $this->resourceManager->writeResources('css');
 
         $this->assertNull($result);
     }
 
-    public function testWriteJsResources()
+    /**
+     * @covers ::writeResources
+     */
+    public function testWriteJsResources(): void
     {
         $this->resourceManager->add('js', 'path/to/resource.js');
         $this->resourceManager->add('js', 'path/to/secondResource.js');

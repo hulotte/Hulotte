@@ -1,6 +1,6 @@
 <?php
 
-namespace HulotteModules\Account\Middlewares;
+namespace Hulotte\Middlewares;
 
 use Psr\Http\{
     Message\ResponseInterface,
@@ -9,21 +9,18 @@ use Psr\Http\{
     Server\RequestHandlerInterface
 };
 use Hulotte\{
+    Exceptions\ForbiddenException,
+    Exceptions\NoAuthException,
     Response\RedirectResponse,
     Services\Dictionary,
     Session\MessageFlash,
     Session\SessionInterface
 };
-use HulotteModules\Account\{
-    AccountModule,
-    Exceptions\ForbiddenException,
-    Exceptions\NoAuthException
-};
 
 /**
  * Class ForbiddenMiddleware
  *
- * @package HulotteModules\Account\Middlewares
+ * @package Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
 class ForbiddenMiddleware implements MiddlewareInterface
@@ -66,7 +63,7 @@ class ForbiddenMiddleware implements MiddlewareInterface
         $this->dictionary = $dictionary;
         $this->session = $session;
     }
-
+    
     /**
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $next
@@ -81,14 +78,14 @@ class ForbiddenMiddleware implements MiddlewareInterface
 
             (new MessageFlash($this->session))
                 ->error(
-                    $this->dictionary->translate('ForbiddenMiddleware:errorNotConnected', AccountModule::class)
+                    $this->dictionary->translate('ForbiddenMiddleware:errorNotConnected')
                 );
 
             return new RedirectResponse($this->loginPath);
         } catch (ForbiddenException $exception) {
             (new MessageFlash($this->session))
                 ->error(
-                    $this->dictionary->translate('ForbiddenMiddleware:errorNotPermission', AccountModule::class)
+                    $this->dictionary->translate('ForbiddenMiddleware:errorNotPermission')
                 );
 
             return new RedirectResponse($this->dashboardPath);

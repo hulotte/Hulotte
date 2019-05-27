@@ -4,7 +4,6 @@ namespace Hulotte\Services;
 
 use \DateTime;
 use Hulotte\{
-    Services\Dictionary,
     Services\Validator\ValidationError
 };
 
@@ -33,6 +32,7 @@ class Validator
 
     /**
      * Validator constructor
+     * @param Dictionary $dictionary
      * @param array $params
      */
     public function __construct(Dictionary $dictionary, array $params)
@@ -158,7 +158,7 @@ class Validator
 
     /**
      * Verify if fields are empty
-     * @param string[] ...$keys
+     * @param string ...$keys
      * @return Validator
      */
     public function notEmpty(string ...$keys): self
@@ -194,7 +194,7 @@ class Validator
 
     /**
      * Verify if all keys are in params
-     * @param string[] ...$keys
+     * @param string ...$keys
      * @return Validator
      */
     public function required(string ...$keys): self

@@ -10,6 +10,7 @@ use Hulotte\Twig\TextExtension;
  *
  * @package Tests\Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Twig\TextExtension
  */
 class TextExtensionTest extends TestCase
 {
@@ -18,27 +19,36 @@ class TextExtensionTest extends TestCase
      */
     private $textExtension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->textExtension = new TextExtension();
     }
 
-    public function testExtractWithShortText()
+    /**
+     * @covers ::extract
+     */
+    public function testExtractWithShortText(): void
     {
         $text = 'hello-world';
 
         $this->assertEquals($text, $this->textExtension->extract($text, 15));
     }
 
-    public function testExctractWithLongText()
+    /**
+     * @covers ::extract
+     */
+    public function testExctractWithLongText(): void
     {
         $text = 'hello all the world';
 
         $this->assertEquals('hello...', $this->textExtension->extract($text, 7));
         $this->assertEquals('hello all...', $this->textExtension->extract($text, 12));
     }
-    
-    public function testExctractWithNoSpace()
+
+    /**
+     * @covers ::extract
+     */
+    public function testExctractWithNoSpace(): void
     {
         $text = 'helloalltheworld';
 

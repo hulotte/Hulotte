@@ -2,6 +2,7 @@
 
 namespace HulotteModules\Account\Entity;
 
+use Hulotte\Auth\UserEntityInterface;
 use HulotteModules\Account\Table\{
     PermissionTable,
     RoleTable
@@ -13,7 +14,7 @@ use HulotteModules\Account\Table\{
  * @package HulotteModules\Account\Entity
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class UserEntity
+class UserEntity implements UserEntityInterface
 {
     /**
      * @var string

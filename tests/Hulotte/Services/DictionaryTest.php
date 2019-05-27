@@ -11,17 +11,25 @@ use Tests\Hulotte\Dictionary\TestModule;
  *
  * @package Tests\Hulotte
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Services\Dictionary
  */
 class DictionaryTest extends TestCase
 {
-    public function testTranslateEn()
+    /**
+     * @covers ::translate
+     */
+    public function testTranslateEn(): void
     {
         $sentence = $this->getDictionary('en')->translate('test:hello', TestModule::class);
 
         $this->assertEquals('Hello World.', $sentence);
     }
 
-    private function getDictionary($locale)
+    /**
+     * @param string $locale
+     * @return Dictionary
+     */
+    private function getDictionary(string $locale): Dictionary
     {
         return new Dictionary($locale);
     }

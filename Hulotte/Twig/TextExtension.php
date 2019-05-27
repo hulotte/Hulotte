@@ -2,13 +2,18 @@
 
 namespace Hulotte\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
+
 /**
  * Class TextExtension
  *
  * @package Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class TextExtension extends \Twig_Extension
+class TextExtension extends AbstractExtension
 {
     /**
      * Implement new filters on twig
@@ -17,7 +22,7 @@ class TextExtension extends \Twig_Extension
     public function getFilters(): array
     {
         return [
-            new \Twig_SimpleFilter('extract', [$this, 'extract']),
+            new TwigFunction('extract', [$this, 'extract']),
         ];
     }
 

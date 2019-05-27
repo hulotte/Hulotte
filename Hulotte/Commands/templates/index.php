@@ -11,15 +11,13 @@ use Hulotte\{
     App,
     Middlewares\CsrfMiddleware,
     Middlewares\DispatcherMiddleware,
+    Middlewares\ForbiddenMiddleware,
     Middlewares\LocaleMiddleware,
+    Middlewares\LoggedInMiddleware,
     Middlewares\MethodMiddleware,
     Middlewares\NotFoundMiddleware,
     Middlewares\RouterMiddleware,
     Middlewares\TrailingSlashMiddleware
-};
-use HulotteModules\Account\{
-    Middlewares\ForbiddenMiddleware,
-    Middlewares\LoggedInMiddleware
 };
 
 chdir(dirname(__DIR__));

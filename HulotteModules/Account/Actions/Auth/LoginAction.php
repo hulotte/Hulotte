@@ -51,7 +51,7 @@ class LoginAction
     /**
      * @param ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface|string
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function __invoke(ServerRequestInterface $request)
     {

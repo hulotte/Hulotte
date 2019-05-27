@@ -2,7 +2,10 @@
 
 namespace Hulotte\Twig;
 
-use \DateTime;
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 
 /**
  * Class FormExtension
@@ -10,7 +13,7 @@ use \DateTime;
  * @package Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class FormExtension extends \Twig_Extension
+class FormExtension extends AbstractExtension
 {
     /**
      * @return array
@@ -18,23 +21,23 @@ class FormExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('field_checkbox', [$this, 'fieldCheckbox'], [
+            new TwigFunction('field_checkbox', [$this, 'fieldCheckbox'], [
                 'is_safe' => ['html'],
                 'needs_context' => true
             ]),
-            new \Twig_SimpleFunction('field_input', [$this, 'fieldInput'], [
+            new TwigFunction('field_input', [$this, 'fieldInput'], [
                 'is_safe' => ['html'],
                 'needs_context' => true
             ]),
-            new \Twig_SimpleFunction('field_radio', [$this, 'fieldRadio'], [
+            new TwigFunction('field_radio', [$this, 'fieldRadio'], [
                 'is_safe' => ['html'],
                 'needs_context' => true
             ]),
-            new \Twig_SimpleFunction('field_select', [$this, 'fieldSelect'], [
+            new TwigFunction('field_select', [$this, 'fieldSelect'], [
                 'is_safe' => ['html'],
                 'needs_context' => true
             ]),
-            new \Twig_SimpleFunction('field_textarea', [$this, 'fieldTextarea'], [
+            new TwigFunction('field_textarea', [$this, 'fieldTextarea'], [
                 'is_safe' => ['html'],
                 'needs_context' => true
             ]),

@@ -1,11 +1,11 @@
 <?php
 
-namespace HulotteModules\Account\Exceptions;
+namespace Hulotte\Exceptions;
 
 /**
  * Class NoAuthException
  *
- * @package HulotteModules\Account\Exceptions
+ * @package Hulotte\Exceptions
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
 class NoAuthException extends \Exception

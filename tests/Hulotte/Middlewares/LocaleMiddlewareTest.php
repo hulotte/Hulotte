@@ -3,7 +3,10 @@
 namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Psr\{
     Container\ContainerInterface,
     Http\Server\RequestHandlerInterface
@@ -18,14 +21,26 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\LocaleMiddleware
  */
 class LocaleMiddlewareTest extends TestCase
 {
+    /**
+     * @var MockObject
+     */
     private $handle;
+
+    /**
+     * @var LocaleMiddleware
+     */
     private $middleware;
+
+    /**
+     * @var PhpSession
+     */
     private $session;
 
-    public function setUp()
+    public function setUp(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
                 ->setMethods(['get', 'has', 'set'])
@@ -35,7 +50,10 @@ class LocaleMiddlewareTest extends TestCase
         $this->middleware = new LocaleMiddleware($container, $this->session);
     }
 
-    public function testWithoutLocale()
+    /**
+     * @covers ::process
+     */
+    public function testWithoutLocale(): void
     {
         $request = new ServerRequest('GET', '/test');
         $this->getHandle()->expects($this->once())
@@ -44,7 +62,10 @@ class LocaleMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testWithLocale()
+    /**
+     * @covers ::process
+     */
+    public function testWithLocale(): void
     {
         $request = new ServerRequest('GET', '/test?lang=fr');
         $response = $this->middleware->process($request, $this->getHandle());
@@ -54,7 +75,10 @@ class LocaleMiddlewareTest extends TestCase
         $this->assertEquals('fr', $this->session->get('locale'));
     }
 
-    public function testWithNothing()
+    /**
+     * @covers ::process
+     */
+    public function testWithNothing(): void
     {
         $request = new ServerRequest('GET', '');
         $this->getHandle()->expects($this->once())
@@ -63,7 +87,10 @@ class LocaleMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    private function getHandle()
+    /**
+     * @return MockObject
+     */
+    private function getHandle(): MockObject
     {
         if (!$this->handle) {
             $this->handle = $this->getMockBuilder(RequestHandlerInterface::class)

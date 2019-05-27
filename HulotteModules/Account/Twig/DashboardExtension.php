@@ -2,6 +2,10 @@
 
 namespace HulotteModules\Account\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 use Hulotte\Module\WidgetInterface;
 
 /**
@@ -10,7 +14,7 @@ use Hulotte\Module\WidgetInterface;
  * @package HulotteModules\Account\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class DashboardExtension extends \Twig_Extension
+class DashboardExtension extends AbstractExtension
 {
     /**
      * @var array
@@ -32,7 +36,7 @@ class DashboardExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('dashboard_menu', [$this, 'renderMenu'], ['is_safe' => ['html']]),
+            new TwigFunction('dashboard_menu', [$this, 'renderMenu'], ['is_safe' => ['html']]),
         ];
     }
 

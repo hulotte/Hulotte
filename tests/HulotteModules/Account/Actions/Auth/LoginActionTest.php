@@ -19,10 +19,14 @@ use HulotteModules\Account\{
  *
  * @package Tests\HulotteModules\Account\Actions\Auth
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Actions\Auth\LoginAction
  */
 class LoginActionTest extends TestCase
 {
-    public function testRedirectIfConnected()
+    /**
+     * @covers ::redirect
+     */
+    public function testRedirectIfConnected(): void
     {
         $auth = $this->createMock(Auth::class);
         $auth->method('getUser')

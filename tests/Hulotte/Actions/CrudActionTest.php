@@ -3,6 +3,8 @@
 namespace Tests\Hulotte\Actions;
 
 use GuzzleHttp\Psr7\ServerRequest;
+use PHPUnit\Framework\MockObject\MockObject;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\{
     Container\ContainerInterface,
     Http\Message\ResponseInterface
@@ -15,17 +17,14 @@ use Hulotte\{
     Services\Dictionary,
     Session\MessageFlash
 };
-use Tests\{
-    DatabaseTestCase,
-    Hulotte\Actions\TestEntity,
-    Hulotte\Actions\TestTable
-};
+use Tests\DatabaseTestCase;
 
 /**
  * Class CrudActionTest
  *
  * @package Tests\Hulotte\Actions
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Actions\CrudAction
  */
 class CrudActionTest extends DatabaseTestCase
 {
@@ -37,14 +36,17 @@ class CrudActionTest extends DatabaseTestCase
     private $router;
     private $testTable;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->getPdo()->exec('CREATE TABLE test
             (id INTEGER PRIMARYKEY AUTO_INCREMENT, label VARCHAR(255))');
         $this->database = new Database($this->getPdo());
     }
 
-    public function testCreateRedirection()
+    /**
+     * @covers ::create
+     */
+    public function testCreateRedirection(): void
     {
         $request = new ServerRequest('GET', '/manager/create');
 
@@ -52,8 +54,11 @@ class CrudActionTest extends DatabaseTestCase
 
         call_user_func_array($this->crudAction, [$request]);
     }
-    
-    public function testReadRedirection()
+
+    /**
+     * @covers ::read
+     */
+    public function testReadRedirection(): void
     {
         $request = new ServerRequest('GET', '/manager/read');
 
@@ -62,7 +67,10 @@ class CrudActionTest extends DatabaseTestCase
         call_user_func_array($this->crudAction, [$request]);
     }
 
-    public function testUpdateRedirection()
+    /**
+     * @covers ::update
+     */
+    public function testUpdateRedirection(): void
     {
         $request = (new ServerRequest('GET', '/manager/update'))
             ->withAttribute('id', 1);
@@ -72,7 +80,10 @@ class CrudActionTest extends DatabaseTestCase
         call_user_func_array($this->crudAction, [$request]);
     }
 
-    public function testDeleteRedirection()
+    /**
+     * @covers ::delete
+     */
+    public function testDeleteRedirection(): void
     {
         $request = (new ServerRequest('DELETE', '/manager/delete'))
             ->withAttribute('id', 1);
@@ -82,7 +93,10 @@ class CrudActionTest extends DatabaseTestCase
         call_user_func_array($this->crudAction, [$request]);
     }
 
-    public function testCreate()
+    /**
+     * @covers ::create
+     */
+    public function testCreate(): void
     {
         $request = (new ServerRequest('POST', '/manager/create'))
             ->withParsedBody(['label' => 'test']);
@@ -100,7 +114,10 @@ class CrudActionTest extends DatabaseTestCase
         $this->assertCount(1, $record);
     }
 
-    public function testRead()
+    /**
+     * @covers ::read
+     */
+    public function testRead(): void
     {
         $this->insertDatas();
         $request = new ServerRequest('GET', '/manager/read');
@@ -113,10 +130,13 @@ class CrudActionTest extends DatabaseTestCase
 
         $response = call_user_func_array($action, [$request]);
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
     }
 
-    public function testReadWithoutStatementDefined()
+    /**
+     * @covers ::read
+     */
+    public function testReadWithoutStatementDefined(): void
     {
         $this->insertDatas();
         $request = new ServerRequest('GET', '/manager/read');
@@ -128,10 +148,13 @@ class CrudActionTest extends DatabaseTestCase
 
         $response = call_user_func_array($action, [$request]);
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
     }
 
-    public function testUpdate()
+    /**
+     * @covers ::update
+     */
+    public function testUpdate(): void
     {
         $this->insertDatas();
         $request = (new ServerRequest('POST', '/manager/update'))
@@ -151,7 +174,10 @@ class CrudActionTest extends DatabaseTestCase
         $this->assertEquals('modify', $record['label']);
     }
 
-    public function testDelete()
+    /**
+     * @covers ::delete
+     */
+    public function testDelete(): void
     {
         $this->insertDatas();
         $request = (new ServerRequest('DELETE', '/manager/delete'))
@@ -168,8 +194,11 @@ class CrudActionTest extends DatabaseTestCase
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertCount(3, $records);
     }
-    
-    protected function getTable()
+
+    /**
+     * @return TestTable
+     */
+    protected function getTable(): TestTable
     {
         if (!$this->testTable) {
             $this->testTable = new TestTable($this->getContainer()->reveal(), $this->database);
@@ -178,7 +207,10 @@ class CrudActionTest extends DatabaseTestCase
         return $this->testTable;
     }
 
-    private function getContainer()
+    /**
+     * @return ObjectProphecy
+     */
+    private function getContainer(): ObjectProphecy
     {
         if (!$this->container) {
             $this->container = $this->prophesize(ContainerInterface::class);
@@ -192,6 +224,10 @@ class CrudActionTest extends DatabaseTestCase
         return $this->container;
     }
 
+    /**
+     * @param bool $mock
+     * @return CrudAction|MockObject
+     */
     private function getCrudAction(bool $mock = false)
     {
         if (!$this->crudAction) {
@@ -222,7 +258,10 @@ class CrudActionTest extends DatabaseTestCase
         return $this->crudAction;
     }
 
-    private function getDictionary()
+    /**
+     * @return MockObject
+     */
+    private function getDictionary(): MockObject
     {
         if (!$this->dictionary) {
             $this->dictionary = $this->createMock(Dictionary::class);
@@ -231,7 +270,10 @@ class CrudActionTest extends DatabaseTestCase
         return $this->dictionary;
     }
 
-    private function getMessageFlash()
+    /**
+     * @return MockObject
+     */
+    private function getMessageFlash(): MockObject
     {
         if (!$this->messageFlash) {
             $this->messageFlash = $this->createMock(MessageFlash::class);
@@ -240,7 +282,10 @@ class CrudActionTest extends DatabaseTestCase
         return $this->messageFlash;
     }
 
-    private function getRenderer()
+    /**
+     * @return MockObject
+     */
+    private function getRenderer(): MockObject
     {
         if (!$this->renderer) {
             $this->renderer = $this->createMock(RendererInterface::class);
@@ -249,7 +294,10 @@ class CrudActionTest extends DatabaseTestCase
         return $this->renderer;
     }
 
-    private function getRouter()
+    /**
+     * @return MockObject
+     */
+    private function getRouter(): MockObject
     {
         if (!$this->router) {
             $this->router = $this->createMock(Router::class);
@@ -258,7 +306,10 @@ class CrudActionTest extends DatabaseTestCase
         return $this->router;
     }
 
-    private function insertDatas()
+    /**
+     * Add Datas to fake database
+     */
+    private function insertDatas(): void
     {
         $statement = 'INSERT INTO test(id, label) VALUES '
             . '(1, "first"), (2, "second"), (3, "third"), (4, "fourth")';

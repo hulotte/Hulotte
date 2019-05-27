@@ -133,8 +133,8 @@ class App implements RequestHandlerInterface
         } else {
             $this->middlewares[] = new RestrictedRouteMiddleware(
                 $this->getContainer(),
-                $restrictedPaths,
-                $middleware
+                $middleware,
+                $restrictedPaths
             );
         }
 

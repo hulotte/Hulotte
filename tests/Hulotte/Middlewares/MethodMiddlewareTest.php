@@ -3,7 +3,10 @@
 namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Psr\Http\Server\RequestHandlerInterface;
 use Hulotte\Middlewares\MethodMiddleware;
 
@@ -12,18 +15,29 @@ use Hulotte\Middlewares\MethodMiddleware;
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @covers \Hulotte\Middlewares\MethodMiddleware
  */
 class MethodMiddlewareTest extends TestCase
 {
+    /**
+     * @var MockObject
+     */
     private $handle;
+
+    /**
+     * @var MethodMiddleware
+     */
     private $middleware;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->middleware = new MethodMiddleware();
     }
 
-    public function testDeleteMethod()
+    /**
+     * @covers ::process
+     */
+    public function testDeleteMethod(): void
     {
         $request = (new ServerRequest('POST', '/test'))
             ->withParsedBody(['_method' => 'DELETE']);
@@ -37,7 +51,10 @@ class MethodMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    public function testPutMethod()
+    /**
+     * @covers ::process
+     */
+    public function testPutMethod(): void
     {
         $request = (new ServerRequest('POST', '/test'))
             ->withParsedBody(['_method' => 'PUT']);
@@ -51,7 +68,10 @@ class MethodMiddlewareTest extends TestCase
         $this->middleware->process($request, $this->getHandle());
     }
 
-    private function getHandle()
+    /**
+     * @return MockObject
+     */
+    private function getHandle(): MockObject
     {
         if (!$this->handle) {
             $this->handle = $this->getMockBuilder(RequestHandlerInterface::class)

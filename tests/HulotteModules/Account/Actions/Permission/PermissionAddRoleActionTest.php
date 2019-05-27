@@ -3,9 +3,12 @@
 namespace Tests\HulotteModules\Account\Actions\Permission;
 
 use GuzzleHttp\Psr7\ServerRequest;
+use PHPUnit\Framework\MockObject\MockObject;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Hulotte\{
     Database\Database,
+    Exceptions\NoAuthException,
     Router,
     Services\Dictionary,
     Session\MessageFlash
@@ -15,7 +18,6 @@ use HulotteModules\Account\{
     Auth,
     Entity\PermissionEntity,
     Entity\RoleEntity,
-    Exceptions\NoAuthException,
     Table\PermissionTable,
     Table\RoleTable
 };
@@ -26,17 +28,41 @@ use Tests\DatabaseTestCase;
  *
  * @package Tests\HulotteModules\Account\Actions\Permission
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Actions\Permission\PermissionAddRoleAction
  */
 class PermissionAddRoleActionTest extends DatabaseTestCase
 {
+    /**
+     * @var ObjectProphecy
+     */
     private $container;
+
+    /**
+     * @var MockObject
+     */
     private $dictionary;
+
+    /**
+     * @var MockObject
+     */
     private $messageFlash;
+
+    /**
+     * @var PermissionTable
+     */
     private $permissionTable;
+
+    /**
+     * @var RoleTable
+     */
     private $roleTable;
+
+    /**
+     * @var MockObject
+     */
     private $router;
     
-    public function setUp()
+    public function setUp(): void
     {
         $statementRole = 'CREATE TABLE role (id INTEGER PRIMARYKEY AUTO_INCREMENT, label VARCHAR(255))';
         $statementPermission = 'CREATE TABLE permission (id INTEGER PRIMARYKEY AUTO_INCREMENT, label VARCHAR(255))';
@@ -63,7 +89,7 @@ class PermissionAddRoleActionTest extends DatabaseTestCase
         $this->router = $this->createMock(Router::class);
     }
 
-    public function testAddRole()
+    public function testAddRole(): void
     {
         $this->insertRolePermission();
 
@@ -87,7 +113,7 @@ class PermissionAddRoleActionTest extends DatabaseTestCase
         $this->assertCount(1, $result);
     }
 
-    public function testAddRoleWithoutPermission()
+    public function testAddRoleWithoutPermission(): void
     {
         $this->insertRolePermission();
 
@@ -111,7 +137,7 @@ class PermissionAddRoleActionTest extends DatabaseTestCase
         call_user_func_array($action, [$request]);
     }
 
-    public function testAddRoleFailRelationAlreadyExists()
+    public function testAddRoleFailRelationAlreadyExists(): void
     {
         $this->insertRolePermission();
 
@@ -134,7 +160,7 @@ class PermissionAddRoleActionTest extends DatabaseTestCase
         call_user_func_array($action, [$request]);
     }
 
-    public function testAddRoleFailRoleNotExists()
+    public function testAddRoleFailRoleNotExists(): void
     {
         $this->insertRolePermission();
 
@@ -157,7 +183,10 @@ class PermissionAddRoleActionTest extends DatabaseTestCase
         call_user_func_array($action, [$request]);
     }
 
-    private function getContainer()
+    /**
+     * @return ObjectProphecy
+     */
+    private function getContainer(): ObjectProphecy
     {
         if (!$this->container) {
             $this->container = $this->prophesize(ContainerInterface::class);
@@ -172,7 +201,7 @@ class PermissionAddRoleActionTest extends DatabaseTestCase
         return $this->container;
     }
 
-    private function insertRolePermission()
+    private function insertRolePermission(): void
     {
         $statementRole = 'INSERT INTO role(id, label) VALUES (1, "first role"), (2, "second role")';
         $statementPermission = 'INSERT INTO permission(id, label) VALUES (1, "first permission")';

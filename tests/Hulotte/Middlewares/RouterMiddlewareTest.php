@@ -3,7 +3,10 @@
 namespace Tests\Hulotte\Middlewares;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Psr\Http\Server\RequestHandlerInterface;
 use Hulotte\{
     Middlewares\RouterMiddleware,
@@ -16,12 +19,19 @@ use Hulotte\{
  *
  * @package Tests\Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Middlewares\RouterMiddleware
  */
 class RouterMiddlewareTest extends TestCase
 {
+    /**
+     * @var MockObject
+     */
     private $handle;
-    
-    public function testNoRouteMatch()
+
+    /**
+     * @covers ::process
+     */
+    public function testNoRouteMatch(): void
     {
         $router = $this->createMock(Router::class);
         $router->method('match')->willReturn(null);
@@ -34,7 +44,10 @@ class RouterMiddlewareTest extends TestCase
         $middleware->process($request, $this->getHandle());
     }
 
-    public function testRouteMatch()
+    /**
+     * @covers ::process
+     */
+    public function testRouteMatch(): void
     {
         $route = $this->createMock(Route::class);
         $router = $this->createMock(Router::class);
@@ -48,7 +61,10 @@ class RouterMiddlewareTest extends TestCase
         $middleware->process($request, $this->getHandle());
     }
 
-    private function getHandle()
+    /**
+     * @return MockObject
+     */
+    private function getHandle(): MockObject
     {
         if (!$this->handle) {
             $this->handle = $this->getMockBuilder(RequestHandlerInterface::class)

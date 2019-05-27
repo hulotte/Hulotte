@@ -1,38 +1,43 @@
 <?php
 
-namespace HulotteModules\Account\Middlewares;
+namespace Hulotte\Middlewares;
 
-use Psr\Http\{
-    Message\ResponseInterface,
-    Message\ServerRequestInterface,
-    Server\MiddlewareInterface,
-    Server\RequestHandlerInterface
+use Psr\{
+    Container\ContainerInterface,
+    Http\Message\ResponseInterface,
+    Http\Message\ServerRequestInterface,
+    Http\Server\MiddlewareInterface,
+    Http\Server\RequestHandlerInterface
 };
-use HulotteModules\Account\{
-    Auth,
+use Hulotte\{
+    Auth\AuthInterface,
     Exceptions\NoAuthException
 };
 
 /**
  * Class LoggedInMiddleware
  *
- * @package HulotteModules\Account\Middlewares
+ * @package Hulotte\Middlewares
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
 class LoggedInMiddleware implements MiddlewareInterface
 {
     /**
-     * @var Auth
+     * @var null|AuthInterface
      */
     private $auth;
 
     /**
      * LoggedInMiddleware constructor
-     * @param Auth $auth
+     * @param ContainerInterface $container
      */
-    public function __construct(Auth $auth)
+    public function __construct(ContainerInterface $container)
     {
-        $this->auth = $auth;
+        if ($container->has(AuthInterface::class)) {
+            $this->auth = $container->get(AuthInterface::class);
+        } else {
+            $this->auth = null;
+        }
     }
 
     /**
@@ -43,6 +48,10 @@ class LoggedInMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
+        if ($this->auth === null) {
+            return $next->handle($request);
+        }
+        
         $user = $this->auth->getUser();
 
         if ($user === null) {

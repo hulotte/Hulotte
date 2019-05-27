@@ -10,11 +10,11 @@ use Hulotte\Database\StatementBuilder;
  *
  * @package Tests\Hulotte\Database
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Database\StatementBuilder
  */
 class StatementBuilderTest extends DatabaseTestCase
 {
-    
-    public function testSimpleStatement()
+    public function testSimpleStatement(): void
     {
         $statement = (new StatementBuilder())
             ->from('post')
@@ -23,7 +23,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals('SELECT name FROM post', $statement);
     }
 
-    public function testWithWhere()
+    public function testWithWhere(): void
     {
         $statement = (new StatementBuilder())
             ->from('post', 'p')
@@ -37,7 +37,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals('SELECT * FROM post as p WHERE (a = :a OR b = :b) AND (c = :c)', $statement2);
     }
 
-    public function testWithOrder()
+    public function testWithOrder(): void
     {
         $statement = (new StatementBuilder())
             ->from('post')
@@ -51,7 +51,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals('SELECT * FROM post ORDER BY createdAt DESC, label ASC', $statement2);
     }
 
-    public function testWithLimit()
+    public function testWithLimit(): void
     {
         $statement = (new StatementBuilder())
             ->from('post')
@@ -65,7 +65,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals('SELECT * FROM post LIMIT 10, 14', $statement2);
     }
 
-    public function testWithGroup()
+    public function testWithGroup(): void
     {
         $statement = (new StatementBuilder())
             ->from('post')
@@ -74,7 +74,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals('SELECT * FROM post GROUP BY label', $statement);
     }
     
-    public function testWithJoin()
+    public function testWithJoin(): void
     {
         $statement = (new StatementBuilder())
             ->from('post')
@@ -88,7 +88,7 @@ class StatementBuilderTest extends DatabaseTestCase
         );
     }
 
-    public function testWithAll()
+    public function testWithAll(): void
     {
         $statement = (new StatementBuilder())
             ->group('label')
@@ -104,7 +104,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals($result, $statement);
     }
     
-    public function testInsertUnique()
+    public function testInsertUnique(): void
     {
         $statement = (new StatementBuilder())
             ->insert('post')
@@ -116,7 +116,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals($result, $statement);
     }
     
-    public function testInsert()
+    public function testInsert(): void
     {
         $statement = (new StatementBuilder())
             ->insert('post')
@@ -128,7 +128,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals($result, $statement);
     }
     
-    public function testInsertMultiple()
+    public function testInsertMultiple(): void
     {
         $statement = (new StatementBuilder())
             ->insert('post')
@@ -141,7 +141,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals($result, $statement);
     }
     
-    public function testDelete()
+    public function testDelete(): void
     {
         $statement = (new StatementBuilder())
             ->delete('post');
@@ -151,7 +151,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals($result, $statement);
     }
     
-    public function testDeleteMultipleCondition()
+    public function testDeleteMultipleCondition(): void
     {
         $statement = (new StatementBuilder())
             ->delete('post')
@@ -162,7 +162,7 @@ class StatementBuilderTest extends DatabaseTestCase
         $this->assertEquals($result, $statement);
     }
     
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $statement = (new StatementBuilder())
             ->update('post')

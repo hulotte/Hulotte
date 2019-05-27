@@ -9,20 +9,27 @@ use Tests\DatabaseTestCase;
  *
  * @package Tests\Hulotte\Database
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \Hulotte\Database\Database
  */
 class DatabaseTest extends DatabaseTestCase
 {
-    public function testQuery()
+    /**
+     * @covers::query
+     */
+    public function testQuery(): void
     {
         $this->getDatabase()->query('INSERT INTO test(id, label) VALUES (1, "first test"), (2, "second test")');
         $arrayResult = $this->getDatabase()->query('SELECT id, label FROM test');
         $oneResult = $this->getDatabase()->query('SELECT id, label FROM test WHERE id = 1', true);
 
-        $this->assertInternalType('array', $arrayResult);
+        $this->assertIsArray($arrayResult);
         $this->assertEquals('first test', $oneResult['label']);
     }
 
-    public function testGetLastInsertId()
+    /**
+     * @covers ::lastInsertId
+     */
+    public function testLastInsertId(): void
     {
         $this->getDatabase()->query('INSERT INTO test(id, label) VALUES (1, "first test")');
         $lastInsertId = $this->getDatabase()->lastInsertId();
@@ -30,7 +37,10 @@ class DatabaseTest extends DatabaseTestCase
         $this->assertEquals(1, $lastInsertId);
     }
 
-    public function testPrepare()
+    /**
+     * @covers ::prepare
+     */
+    public function testPrepare(): void
     {
         $this->getDatabase()->prepare(
             'INSERT INTO test(id, label) VALUES (:id, :label)',

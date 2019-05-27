@@ -3,7 +3,10 @@
 namespace Tests\HulotteModules\Account\Actions\Auth;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\{
+    MockObject\MockObject,
+    TestCase
+};
 use Hulotte\{
     Renderer\RendererInterface,
     Router,
@@ -21,41 +24,76 @@ use HulotteModules\Account\{
  *
  * @package Tests\HulotteModules\Account\Actions\Auth
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversDefaultClass \HulotteModules\Account\Actions\Auth\LoginAttemptAction
  */
 class LoginAttemptActionTest extends TestCase
 {
-    public function testLoginWithError()
-    {
-        $auth = $this->createMock(Auth::class);
-        $dictionary = $this->createMock(Dictionary::class);
-        $renderer = $this->createMock(RendererInterface::class);
-        $renderer->method('render');
-        $router = $this->createMock(Router::class);
-        $session = $this->createMock(SessionInterface::class);
+    /**
+     * @var MockObject
+     */
+    private $auth;
 
-        $loginAttemptAction = new LoginAttemptAction($auth, $dictionary, $renderer, $router, $session);
+    /**
+     * @var MockObject
+     */
+    private $dictionary;
+
+    /**
+     * @var MockObject
+     */
+    private $renderer;
+
+    /**
+     * @var MockObject
+     */
+    private $router;
+
+    /**
+     * @var MockObject
+     */
+    private $session;
+
+    public function setup(): void
+    {
+        $this->auth = $this->createMock(Auth::class);
+        $this->dictionary = $this->createMock(Dictionary::class);
+        $this->renderer = $this->createMock(RendererInterface::class);
+        $this->renderer->method('render');
+        $this->router = $this->createMock(Router::class);
+        $this->session = $this->createMock(SessionInterface::class);
+    }
+
+    public function testLoginWithError(): void
+    {
+        $loginAttemptAction = new LoginAttemptAction(
+            $this->auth,
+            $this->dictionary,
+            $this->renderer,
+            $this->router,
+            $this->session
+        );
         $request = (new ServerRequest('POST', '/login'))
             ->withParsedBody([
                 'email' => 'test@test',
                 'password' => 'test'
             ]);
 
-        $renderer->expects($this->once())->method('render');
+        $this->renderer->expects($this->once())->method('render');
         
         $response = call_user_func_array($loginAttemptAction, [$request]);
     }
 
-    public function testLoginWithNoUser()
+    public function testLoginWithNoUser(): void
     {
-        $auth = $this->createMock(Auth::class);
-        $auth->method('login')->willReturn(null);
-        $dictionary = $this->createMock(Dictionary::class);
-        $renderer = $this->createMock(RendererInterface::class);
-        $renderer->method('render');
-        $router = $this->createMock(Router::class);
-        $session = $this->createMock(SessionInterface::class);
+        $this->auth->method('login')->willReturn(null);
 
-        $loginAttemptAction = new LoginAttemptAction($auth, $dictionary, $renderer, $router, $session);
+        $loginAttemptAction = new LoginAttemptAction(
+            $this->auth,
+            $this->dictionary,
+            $this->renderer,
+            $this->router,
+            $this->session
+        );
         $request = (new ServerRequest('POST', '/login'))
             ->withParsedBody([
                 'email' => 'test@test.com',
@@ -67,19 +105,19 @@ class LoginAttemptActionTest extends TestCase
         $this->assertEquals(301, $response->getStatusCode());
     }
 
-    public function testLogin()
+    public function testLogin(): void
     {
-        $auth = $this->createMock(Auth::class);
-        $auth->method('login')
+        $this->auth->method('login')
             ->willReturn($this->createMock(UserEntity::class));
-        $dictionary = $this->createMock(Dictionary::class);
-        $renderer = $this->createMock(RendererInterface::class);
-        $renderer->method('render');
-        $router = $this->createMock(Router::class);
-        $session = $this->createMock(SessionInterface::class);
-        $session->method('get')->willReturn('path');
+        $this->session->method('get')->willReturn('path');
 
-        $loginAttemptAction = new LoginAttemptAction($auth, $dictionary, $renderer, $router, $session);
+        $loginAttemptAction = new LoginAttemptAction(
+            $this->auth,
+            $this->dictionary,
+            $this->renderer,
+            $this->router,
+            $this->session
+        );
         $request = (new ServerRequest('POST', '/login'))
             ->withParsedBody([
                 'email' => 'test@test.com',

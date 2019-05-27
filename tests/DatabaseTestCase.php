@@ -11,20 +11,31 @@ use Hulotte\Database\Database;
  *
  * @package Tests
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @coversNothing
  */
 class DatabaseTestCase extends TestCase
 {
-    private $database;
-    private $pdo;
+    /**
+     * @var Database
+     */
+    protected $database;
 
-    public function setUp()
+    /**
+     * @var PDO
+     */
+    protected $pdo;
+
+    public function setUp(): void
     {
         $this->getPdo()->exec('CREATE TABLE test
             (id INTEGER PRIMARYKEY AUTO_INCREMENT, label VARCHAR(255), number INTEGER)');
         $this->getDatabase();
     }
 
-    protected function getDatabase()
+    /**
+     * @return Database
+     */
+    protected function getDatabase(): Database
     {
         if ($this->database === null) {
             $this->database = new Database($this->getPdo());
@@ -33,7 +44,10 @@ class DatabaseTestCase extends TestCase
         return $this->database;
     }
 
-    protected function getPdo()
+    /**
+     * @return PDO
+     */
+    protected function getPdo(): PDO
     {
         if ($this->pdo === null) {
             $this->pdo = new PDO('sqlite::memory:', null, null, [

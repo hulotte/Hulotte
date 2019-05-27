@@ -2,6 +2,10 @@
 
 namespace Hulotte\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 use Hulotte\Middlewares\CsrfMiddleware;
 
 /**
@@ -10,7 +14,7 @@ use Hulotte\Middlewares\CsrfMiddleware;
  * @package Hulotte\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class CsrfExtension extends \Twig_Extension
+class CsrfExtension extends AbstractExtension
 {
     /**
      * @var CsrfMiddleware
@@ -32,7 +36,7 @@ class CsrfExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('csrf_input', [$this, 'csrfInput'], ['is_safe' => ['html']])
+            new TwigFunction('csrf_input', [$this, 'csrfInput'], ['is_safe' => ['html']])
         ];
     }
 

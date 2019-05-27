@@ -2,6 +2,10 @@
 
 namespace HulotteModules\Account\Twig;
 
+use Twig\{
+    Extension\AbstractExtension,
+    TwigFunction
+};
 use HulotteModules\Account\Auth;
 
 /**
@@ -10,7 +14,7 @@ use HulotteModules\Account\Auth;
  * @package HulotteModules\Account\Twig
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
-class AuthExtension extends \Twig_Extension
+class AuthExtension extends AbstractExtension
 {
     /**
      * @var Auth
@@ -32,16 +36,16 @@ class AuthExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('auth_hasRole', [$this, 'hasRole']),
-            new \Twig_SimpleFunction('auth_hasPermission', [$this, 'hasPermission']),
+            new TwigFunction('auth_hasRole', [$this, 'hasRole']),
+            new TwigFunction('auth_hasPermission', [$this, 'hasPermission']),
         ];
     }
 
     /**
      * Is current user has a permission
-     * @param string|array $permissions
+     * @param $permissions
      * @return bool
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function hasPermission($permissions): bool
     {
@@ -62,7 +66,7 @@ class AuthExtension extends \Twig_Extension
      * Is current user has a role
      * @param string $role
      * @return bool
-     * @throws \HulotteModules\Account\Exceptions\NoAuthException
+     * @throws \Hulotte\Exceptions\NoAuthException
      */
     public function hasRole(string $role): bool
     {
