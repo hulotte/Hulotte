@@ -46,7 +46,8 @@ class %MODULE_NAME%Module extends Module
      */
     public function __construct(ContainerInterface $container, Router $router)
     {
-        // Insert actions declarations
+        // Define view path
+        $renderer->addPath('app', $container->get('views.path'));
     }
 }
 
