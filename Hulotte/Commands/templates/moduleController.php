@@ -44,7 +44,7 @@ class %MODULE_NAME%Module extends Module
      * @param ContainerInterface $container
      * @param Router $router
      */
-    public function __construct(ContainerInterface $container, Router $router)
+    public function __construct(ContainerInterface $container, Router $router, RendererInterface $renderer)
     {
         // Define view path
         $renderer->addPath('app', $container->get('views.path'));
