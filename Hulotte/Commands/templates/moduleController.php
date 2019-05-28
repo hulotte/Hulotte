@@ -43,6 +43,7 @@ class %MODULE_NAME%Module extends Module
      * %MODULE_NAME%Module constructor
      * @param ContainerInterface $container
      * @param Router $router
+     * @param RendererInterface $renderer
      */
     public function __construct(ContainerInterface $container, Router $router, RendererInterface $renderer)
     {
