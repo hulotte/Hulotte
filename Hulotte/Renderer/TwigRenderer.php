@@ -13,13 +13,13 @@ use Twig\Environment;
 class TwigRenderer implements RendererInterface
 {
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     private $twig;
 
     /**
      * TwigRenderer constructor
-     * @param \Twig_Environment $twig
+     * @param Environment $twig
      */
     public function __construct(Environment $twig)
     {
@@ -48,7 +48,7 @@ class TwigRenderer implements RendererInterface
 
     /**
      * Twig parameter getter
-     * @return \Twig_Environment
+     * @return Environment
      */
     public function getTwig(): Environment
     {
