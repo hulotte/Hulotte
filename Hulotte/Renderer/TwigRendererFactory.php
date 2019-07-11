@@ -2,7 +2,11 @@
 namespace Hulotte\Renderer;
 
 use Psr\Container\ContainerInterface;
-use Twig\Extension\DebugExtension;
+use Twig\{
+    Environment,
+    Extension\DebugExtension,
+    Loader\FilesystemLoader
+};
 
 /**
  * Class TwigRendererFactory
@@ -20,8 +24,8 @@ class TwigRendererFactory
     {
         $debug = $container->get('env') !== 'prod';
         $viewPath = $container->get('views.path');
-        $loader = new \Twig_Loader_Filesystem($viewPath);
-        $twig = new \Twig_Environment($loader, [
+        $loader = new FilesystemLoader($viewPath);
+        $twig = new Environment($loader, [
             'debug' => $debug,
             'cache' => $debug ? false : 'tmp/views',
             'auto_reload' => $debug

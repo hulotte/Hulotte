@@ -2,6 +2,8 @@
 
 namespace Hulotte\Renderer;
 
+use Twig\Environment;
+
 /**
  * Class TwigRenderer
  *
@@ -19,7 +21,7 @@ class TwigRenderer implements RendererInterface
      * TwigRenderer constructor
      * @param \Twig_Environment $twig
      */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }
@@ -48,7 +50,7 @@ class TwigRenderer implements RendererInterface
      * Twig parameter getter
      * @return \Twig_Environment
      */
-    public function getTwig(): \Twig_Environment
+    public function getTwig(): Environment
     {
         return $this->twig;
     }
