@@ -19,12 +19,12 @@ class CreateDatabaseCommand extends Command
     /**
      * Configures the current command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('create:database')
             ->setDescription('Create new database')
-            ->addArgument('databaseName', InputArgument::REQUIRED, 'The name of the database.');
+            ->addArgument('databaseName', InputArgument::OPTIONAL, 'The name of the database.');
     }
 
     /**
@@ -32,11 +32,19 @@ class CreateDatabaseCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): void
     {
         $databaseName = $input->getArgument('databaseName');
         $database = $this->container->get(Database::class);
-        $database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
+
+        if ($databaseName) {
+            $database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
+        } elseif ($this->container->has('database.name') && $this->container->get('database.name') !== '') {
+            $database->query('CREATE DATABASE IF NOT EXISTS ' . $this->container->get('database.name'));
+        } else {
+            $output->writeln('No database name specified !');
+            exit();
+        }
 
         $output->writeln('Database ' . $databaseName . ' is created');
     }
