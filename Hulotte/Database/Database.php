@@ -74,6 +74,7 @@ class Database
         if (strpos($statement, 'UPDATE') === 0
             || strpos($statement, 'INSERT') === 0
             || strpos($statement, 'DELETE') === 0
+            || strpos($statement, 'CREATE') === 0
         ) {
             return $query;
         }
