@@ -34,18 +34,32 @@ class CreateDatabaseCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): void
     {
-        $databaseName = $input->getArgument('databaseName');
         $database = $this->container->get(Database::class);
+        $databaseName = $this->defineDatabaseName($input);
 
         if ($databaseName) {
             $database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
-        } elseif ($this->container->has('database.name') && $this->container->get('database.name') !== '') {
-            $database->query('CREATE DATABASE IF NOT EXISTS ' . $this->container->get('database.name'));
+            $output->writeln('Database ' . $databaseName . ' is created');
         } else {
             $output->writeln('No database name specified !');
-            exit();
+        }
+    }
+
+    /**
+     * Define the name of database on input argument or container parameter
+     * @param InputInterface $input
+     * @return null
+     */
+    private function defineDatabaseName(InputInterface $input): ?null
+    {
+        if ($input->hasArgument('databaseName')) {
+            return $input->getArgument('databaseName');
         }
 
-        $output->writeln('Database ' . $databaseName . ' is created');
+        if ($this->container->has('database.name')) {
+            return $this->container->get('database.name');
+        }
+
+        return null;
     }
 }
