@@ -41,16 +41,16 @@ class CreateDatabaseCommand extends Command
             $database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
             $output->writeln('Database ' . $databaseName . ' is created');
         } else {
-            $output->writeln('No database name specified !');
+            $output->writeln('<error>No database name specified !</error>');
         }
     }
 
     /**
      * Define the name of database on input argument or container parameter
      * @param InputInterface $input
-     * @return null
+     * @return null|string
      */
-    private function defineDatabaseName(InputInterface $input): ?null
+    private function defineDatabaseName(InputInterface $input): ?string
     {
         if ($input->hasArgument('databaseName')) {
             return $input->getArgument('databaseName');
