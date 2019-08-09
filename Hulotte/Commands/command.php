@@ -17,7 +17,13 @@ $container = (new App())->getContainer('dev');
 $application = new Application();
 
 foreach ($container->get('commands') as $command) {
-    $application->add(new $command);
+    $command = new $command;
+
+    if (method_exists($command, 'setContainer')) {
+        $command->setContainer($container);
+    }
+
+    $application->add($command);
 }
 
 $application->run();
