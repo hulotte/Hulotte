@@ -57,7 +57,7 @@ class CreateDatabaseCommand extends Command
      */
     private function defineDatabaseName(InputInterface $input): ?string
     {
-        if ($input->hasArgument('databaseName')) {
+        if ($input->hasArgument('databaseName') && $input->getArgument('databaseName') !== null) {
             return $input->getArgument('databaseName');
         }
 

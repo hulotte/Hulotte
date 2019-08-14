@@ -19,7 +19,7 @@ if (file_exists($rootFolder . 'public/index.php')) {
     require_once($rootFolder . 'public/index.php');
     $container = $app->getContainer();
 } else {
-    require $rootFolder . 'vendor/autoload.php';
+    require_once $rootFolder . 'vendor/autoload.php';
     $container = (new App())->getContainer();
 }
 
