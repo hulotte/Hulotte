@@ -2,7 +2,12 @@
 
 namespace Hulotte\Commands;
 
-use Symfony\Component\Console\{Command\Command, Input\InputArgument, Input\InputInterface, Output\OutputInterface};
+use Symfony\Component\Console\{
+    Command\Command,
+    Input\InputArgument,
+    Input\InputInterface,
+    Output\OutputInterface
+};
 use Hulotte\Database\Database;
 
 /**
@@ -14,6 +19,7 @@ use Hulotte\Database\Database;
  */
 class CreateDatabaseCommand extends Command
 {
+    use CommandDatabase;
     use CommandContainer;
 
     /**
@@ -34,11 +40,10 @@ class CreateDatabaseCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): void
     {
-        $database = $this->container->get(Database::class);
         $databaseName = $this->defineDatabaseName($input);
 
         if ($databaseName) {
-            $database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
+            $this->database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
             $output->writeln('Database ' . $databaseName . ' is created');
         } else {
             $output->writeln('<error>No database name specified !</error>');

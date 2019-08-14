@@ -2,29 +2,44 @@
 <?php
 
 use Symfony\Component\Console\Application;
-use Hulotte\App;
+use Hulotte\{
+    App,
+    Database\Database
+};
 
-if (file_exists('/public/index.php')) {
-    require_once('/public/index.php');
-
-    $container = $app->getContainer();
+// Define root folder
+if (strpos(__DIR__, 'vendor')) {
+    $rootFolder = explode('vendor', __DIR__)[0];
 } else {
-    // Define autoload path
-    if (strpos(__DIR__, 'vendor')) {
-        $autoloader = explode('vendor', __DIR__)[0] . 'vendor/autoload.php';
-    } else {
-        $autoloader = dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-    }
-
-    require $autoloader;
-
-    $container = (new App())->getContainer('dev');
+    $rootFolder = dirname(dirname(__DIR__)) . '/';
 }
 
+// Call autoloader and instanciate container
+if (file_exists($rootFolder . 'public/index.php')) {
+    require_once($rootFolder . 'public/index.php');
+    $container = $app->getContainer();
+} else {
+    require $rootFolder . 'vendor/autoload.php';
+    $container = (new App())->getContainer();
+}
+
+// Instanciate database
+$pdo = new PDO('mysql:host=' . $container->get('database.host') . ';charset=utf8',
+    $container->get('database.username'),
+    $container->get('database.password')
+);
+
+$database = new Database($pdo);
+
+// Create command application
 $application = new Application();
 
 foreach ($container->get('commands') as $command) {
     $command = new $command;
+
+    if (method_exists($command, 'setDatabase')) {
+        $command->setDatabase($database);
+    }
 
     if (method_exists($command, 'setContainer')) {
         $command->setContainer($container);
