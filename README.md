@@ -21,6 +21,12 @@ $ ./vendor/bin/hulotte init
 
 This command will install basics files and folders. It also install App module.
 
+If you need a database for your project, you can easy create it with this command line
+```bash
+$ ./vendor/bin/hulotte create:database yourDatabaseName
+```
+
+
 ## Commands
 You can create your own command. For that your class must inherit from _Symfony\Component\Console\Command\Command_ and be declared in the config file of your module like this:
 
