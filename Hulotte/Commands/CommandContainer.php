@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
  * Methods to manage container on commands
  *
  * @package Hulotte\Commands
- * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @author SÃ©bastien CLEMENT <s.clement@lareclame31.fr>
  */
 trait CommandContainer
 {

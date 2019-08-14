@@ -10,7 +10,7 @@ use Hulotte\Database\Database;
  * Command to create a database
  *
  * @package Hulotte\Commands
- * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
+ * @author SÃ©bastien CLEMENT <s.clement@lareclame31.fr>
  */
 class CreateDatabaseCommand extends Command
 {

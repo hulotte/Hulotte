@@ -1,14 +1,14 @@
 {
 	"authors": [
         {
-            "email": "s.clement@lareclame31.fr", 
+            "email": "s.clement@lareclame31.fr",
 			"name": "Sebastien CLEMENT",
 			"role": "Developer"
         }
     ],
 	"autoload": {
         "psr-4": {
-			"Hulotte\\": "Hulotte", 
+			"Hulotte\\": "Hulotte",
 			"HulotteModules\\": "HulotteModules"
         }
     }, 
