@@ -25,7 +25,6 @@ use Hulotte\{
     Twig\MessageFlashExtension,
     Twig\FormExtension,
     Twig\PaginatorExtension,
-    Twig\ResourceManagerExtension,
     Twig\RouterExtension,
     Twig\TextExtension
 };
@@ -62,7 +61,6 @@ return [
         get(MessageFlashExtension::class),
         get(FormExtension::class),
         get(PaginatorExtension::class),
-        get(ResourceManagerExtension::class),
         get(RouterExtension::class),
         get(TextExtension::class)
     ],

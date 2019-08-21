@@ -20,7 +20,7 @@ trait CommandContainer
 
     /**
      * @param ContainerInterface $container
-     * @return CommandContainer
+     * @return mixed
      */
     public function setContainer(ContainerInterface $container): self
     {

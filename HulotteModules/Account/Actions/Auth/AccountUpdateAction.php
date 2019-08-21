@@ -7,15 +7,13 @@ use Psr\{
     Http\Message\ResponseInterface,
     Http\Message\ServerRequestInterface
 };
-use Hulotte\{
-    Actions\RouterAwareAction,
+use Hulotte\{Actions\RouterAwareAction,
     Database\Hydrator,
     Renderer\RendererInterface,
     Router,
     Services\Dictionary,
     Services\Validator,
-    Session\MessageFlash
-};
+    Session\MessageFlash};
 use HulotteModules\Account\{
     Auth,
     AccountModule,

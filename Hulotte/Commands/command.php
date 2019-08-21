@@ -24,7 +24,8 @@ if (file_exists($rootFolder . 'public/index.php')) {
 }
 
 // Instanciate database
-$pdo = new PDO('mysql:host=' . $container->get('database.host') . ';charset=utf8',
+$pdo = new PDO(
+    'mysql:host=' . $container->get('database.host') . ';charset=utf8',
     $container->get('database.username'),
     $container->get('database.password')
 );

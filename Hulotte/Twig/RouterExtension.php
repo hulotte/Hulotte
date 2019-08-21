@@ -32,7 +32,7 @@ class RouterExtension extends AbstractExtension
 
     /**
      * Implement new functions on twig
-     * @return array
+     * @return TwigFunction[]
      */
     public function getFunctions(): array
     {

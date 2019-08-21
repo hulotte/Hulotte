@@ -17,7 +17,7 @@ use Hulotte\Services\Paginator;
 class PaginatorExtension extends AbstractExtension
 {
     /**
-     * @return array
+     * @return TwigFunction[]
      */
     public function getFunctions()
     {

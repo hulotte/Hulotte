@@ -43,7 +43,7 @@ class AuthExtension extends AbstractExtension
 
     /**
      * Is current user has a permission
-     * @param $permissions
+     * @param mixed $permissions
      * @return bool
      * @throws \Hulotte\Exceptions\NoAuthException
      */

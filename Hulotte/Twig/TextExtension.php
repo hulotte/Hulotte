@@ -17,7 +17,7 @@ class TextExtension extends AbstractExtension
 {
     /**
      * Implement new filters on twig
-     * @return \Twig_SimpleFilter[]
+     * @return TwigFunction[]
      */
     public function getFilters(): array
     {

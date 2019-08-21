@@ -31,7 +31,7 @@ class MessageFlashExtension extends AbstractExtension
     }
 
     /**
-     * @return array
+     * @return TwigFunction[]
      */
     public function getFunctions(): array
     {

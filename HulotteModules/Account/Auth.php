@@ -3,10 +3,11 @@
 namespace HulotteModules\Account;
 
 use Hulotte\{
-    Auth\AuthInterface, 
+    Auth\AuthInterface,
     Auth\UserEntityInterface,
-    Exceptions\NoAuthException, 
+    Exceptions\NoAuthException,
     Services\Dictionary,
+    Session\MessageFlash,
     Session\SessionInterface
 };
 use HulotteModules\Account\{

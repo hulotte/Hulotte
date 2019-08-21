@@ -16,7 +16,7 @@ use Twig\{
 class FormExtension extends AbstractExtension
 {
     /**
-     * @return array
+     * @return TwigFunction[]
      */
     public function getFunctions()
     {
