@@ -23,7 +23,15 @@ This command will install basics files and folders. It also install App module.
 
 If you need a database for your project, you can easy create it with this command line
 ```bash
-$ ./vendor/bin/hulotte create:database yourDatabaseName
+$ ./vendor/bin/hulotte database:create yourDatabaseName
+```
+If your project is initialized (with a _public/index.php_ file) and if the name of the database is written to a config file like this :
+```php
+'database.name' => 'yourDatabaseName',
+```
+You can simply run the command without specifying the name of the database
+```bash
+$ ./vendor/bin/hulotte database:create
 ```
 
 

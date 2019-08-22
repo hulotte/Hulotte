@@ -9,7 +9,7 @@ use function \DI\env;
 use function \DI\factory;
 use function \DI\get;
 use Hulotte\{
-    Commands\CreateDatabaseCommand,
+    Commands\Lists\CreateDatabaseCommand,
     Commands\InitCommand,
     Commands\ModuleCommand,
     Middlewares\CsrfMiddleware,

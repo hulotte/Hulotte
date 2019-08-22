@@ -1,6 +1,6 @@
 <?php
 
-namespace Hulotte\Commands;
+namespace Hulotte\Commands\Lists;
 
 use Symfony\Component\Console\{
     Command\Command,
@@ -8,19 +8,22 @@ use Symfony\Component\Console\{
     Input\InputInterface,
     Output\OutputInterface
 };
-use Hulotte\Database\Database;
+use Hulotte\Commands\{
+    CommandContainer,
+    CommandDatabase
+};
 
 /**
  * CreateDatabaseCommand
  * Command to create a database
  *
- * @package Hulotte\Commands
+ * @package Hulotte\Commands\Lists
  * @author Sébastien CLEMENT <s.clement@lareclame31.fr>
  */
 class CreateDatabaseCommand extends Command
 {
-    use CommandDatabase;
     use CommandContainer;
+    use CommandDatabase;
 
     /**
      * Configures the current command
@@ -28,7 +31,7 @@ class CreateDatabaseCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('create:database')
+            ->setName('database:create')
             ->setDescription('Create new database')
             ->addArgument('databaseName', InputArgument::OPTIONAL, 'The name of the database.');
     }
@@ -44,7 +47,7 @@ class CreateDatabaseCommand extends Command
 
         if ($databaseName) {
             $this->database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
-            $output->writeln('Database ' . $databaseName . ' is created');
+            $output->writeln('<info>Database ' . $databaseName . ' is created</info>');
         } else {
             $output->writeln('<error>No database name specified !</error>');
         }
