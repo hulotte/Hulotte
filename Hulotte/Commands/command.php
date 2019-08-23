@@ -20,32 +20,14 @@ if (file_exists($rootFolder . 'public/index.php')) {
     $container = $app->getContainer();
 } else {
     require_once $rootFolder . 'vendor/autoload.php';
-    $container = (new App())->getContainer();
+    $container = (new App())->getContainer('dev');
 }
-
-// Instanciate database
-$pdo = new PDO(
-    'mysql:host=' . $container->get('database.host') . ';charset=utf8',
-    $container->get('database.username'),
-    $container->get('database.password')
-);
-
-$database = new Database($pdo);
 
 // Create command application
 $application = new Application();
 
 foreach ($container->get('commands') as $command) {
     $command = new $command;
-
-    if (method_exists($command, 'setDatabase')) {
-        $command->setDatabase($database);
-    }
-
-    if (method_exists($command, 'setContainer')) {
-        $command->setContainer($container);
-    }
-
     $application->add($command);
 }
 

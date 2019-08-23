@@ -2,15 +2,12 @@
 
 namespace Hulotte\Commands\Lists;
 
+use Hulotte\Database\Database;
 use Symfony\Component\Console\{
     Command\Command,
-    Input\InputArgument,
     Input\InputInterface,
-    Output\OutputInterface
-};
-use Hulotte\Commands\{
-    CommandContainer,
-    CommandDatabase
+    Output\OutputInterface,
+    Question\Question
 };
 
 /**
@@ -22,8 +19,87 @@ use Hulotte\Commands\{
  */
 class CreateDatabaseCommand extends Command
 {
-    use CommandContainer;
-    use CommandDatabase;
+    /**
+     * @var Database
+     */
+    private $database;
+
+    /**
+     * @var string
+     */
+    private $databaseHost;
+
+    /**
+     * @var string
+     */
+    private $databaseName;
+
+    /**
+     * @var string
+     */
+
+    private $databasePassword;
+
+    /**
+     * @var string
+     */
+    private $databaseUserName;
+
+    /**
+     * @return string
+     */
+    public function getDatabaseHost(): string
+    {
+        return $this->databaseHost;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabaseName(): string
+    {
+        return $this->databaseName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabasePassword(): string
+    {
+        return $this->databasePassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabaseUserName(): string
+    {
+        return $this->databaseUserName;
+    }
+
+    /**
+     * Instanciate database object
+     * @param Database|null $database
+     * @return Database
+     */
+    public function setDatabase(?Database $database = null): Database
+    {
+        if (!$this->database) {
+            if (!$database) {
+                $pdo = new \PDO(
+                    'mysql:host=' . $this->databaseHost . ';charset=utf8',
+                    $this->databaseUserName,
+                    $this->databasePassword
+                );
+
+                $this->database = new Database($pdo);
+            } else {
+                $this->database = $database;
+            }
+        }
+
+        return $this->database;
+    }
 
     /**
      * Configures the current command
@@ -32,8 +108,7 @@ class CreateDatabaseCommand extends Command
     {
         $this
             ->setName('database:create')
-            ->setDescription('Create new database')
-            ->addArgument('databaseName', InputArgument::OPTIONAL, 'The name of the database.');
+            ->setDescription('Create new database');
     }
 
     /**
@@ -41,33 +116,30 @@ class CreateDatabaseCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    public function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $databaseName = $this->defineDatabaseName($input);
+        $helper = $this->getHelper('question');
 
-        if ($databaseName) {
-            $this->database->query('CREATE DATABASE IF NOT EXISTS ' . $databaseName);
-            $output->writeln('<info>Database ' . $databaseName . ' is created</info>');
-        } else {
-            $output->writeln('<error>No database name specified !</error>');
-        }
-    }
+        $hostQuestion = new Question('Database host ? <comment>[localhost]</comment> ', 'localhost');
+        $nameQuestion = new Question('Database name ? ');
+        $nameQuestion->setValidator(function ($value) {
+            if (trim($value) === '') {
+                throw new \Exception('Database name cannot be empty');
+            }
 
-    /**
-     * Define the name of database on input argument or container parameter
-     * @param InputInterface $input
-     * @return null|string
-     */
-    private function defineDatabaseName(InputInterface $input): ?string
-    {
-        if ($input->hasArgument('databaseName') && $input->getArgument('databaseName') !== null) {
-            return $input->getArgument('databaseName');
-        }
+            return $value;
+        });
+        $userNameQuestion = new Question('Database user name ? <comment>[root]</comment> ', 'root');
+        $passwordQuestion = new Question('Database password ? ', '');
 
-        if ($this->container->has('database.name')) {
-            return $this->container->get('database.name');
-        }
+        $this->databaseHost = $helper->ask($input, $output, $hostQuestion);
+        $this->databaseName = $helper->ask($input, $output, $nameQuestion);
+        $this->databaseUserName = $helper->ask($input, $output, $userNameQuestion);
+        $this->databasePassword = $helper->ask($input, $output, $passwordQuestion);
 
-        return null;
+        $this->setDatabase()->query('CREATE DATABASE iF NOT EXISTS ' . $this->databaseName);
+
+        $output->writeln('');
+        $output->writeln('<info>Database ' . $this->databaseName . ' is created</info>');
     }
 }

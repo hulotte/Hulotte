@@ -23,21 +23,21 @@ return [
         'seeds' => $seeds,
     ],
     'environments' => [
-        'default_database' => 'development', 
+        'default_database' => 'development',
         'development' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'BASE_NAME',
-            'user' => 'root',
-            'pass' => '',
+            'host' => '%DATABASE_HOST%',
+            'name' => '%DATABASE_NAME%',
+            'user' => '%DATABASE_USERNAME%',
+            'pass' => '%DATABASE_PASSWORD%',
             'charset' => 'utf8'
         ],
 		'production' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'BASE_NAME',
-            'user' => 'root',
-            'pass' => '',
+            'host' => '%DATABASE_HOST%',
+            'name' => '%DATABASE_NAME%',
+            'user' => '%DATABASE_USERNAME%',
+            'pass' => '%DATABASE_PASSWORD%',
             'charset' => 'utf8'
         ],
     ],

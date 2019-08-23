@@ -10,8 +10,8 @@ use function \DI\factory;
 use function \DI\get;
 use Hulotte\{
     Commands\Lists\CreateDatabaseCommand,
-    Commands\InitCommand,
-    Commands\ModuleCommand,
+    Commands\Lists\InitCommand,
+    Commands\Lists\ModuleCommand,
     Middlewares\CsrfMiddleware,
     Middlewares\ForbiddenMiddleware,
     Renderer\RendererInterface,
@@ -82,10 +82,6 @@ return [
     ],
     'account.auth.login' => '/login',
     'account.dashboard' => '/dashboard',
-    'database.host' => 'localhost',
-    'database.name' => '',
-    'database.password' => '',
-    'database.username' => 'root',
     'env' => env('PROJECT_ENV', 'prod'),
     'locale' => 'fr',
     'restricted.paths' => []

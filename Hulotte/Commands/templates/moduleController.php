@@ -11,6 +11,7 @@ use Hulotte\{
     Renderer\RendererInterface,
     Router
 };
+use HulotteModules\%MODULE_NAME%\Actions\IndexAction;
 
 /**
  * Class %MODULE_NAME%Module
@@ -48,7 +49,10 @@ class %MODULE_NAME%Module extends Module
     public function __construct(ContainerInterface $container, Router $router, RendererInterface $renderer)
     {
         // Define view path
-        $renderer->addPath('app', $container->get('views.path'));
+        $renderer->addPath('%LCFIRST_MODULE_NAME%', $container->get('views.path'));
+        
+        // Create your route
+        $router->get('/', IndexAction::class, '%MODUlE_NAME%.index');
     }
 }
 
