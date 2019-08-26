@@ -102,10 +102,10 @@ class ModuleCommand extends Command
 
         if (!empty($this->databaseConfig)) {
             $databaseContent = <<< EOD
-    'database.host' => "'" . $this->databaseConfig['host'] . "'",
-    'database.name' => "'" . $this->databaseConfig['name'] . "'",
-    'database.password' => "'" . $this->databaseConfig['password'] . "'",
-    'database.username' => "'" . $this->databaseConfig['userName'] . "'",
+    'database.host' => "'" . echo $this->databaseConfig['host'] . "'",
+    'database.name' => "'" . echo $this->databaseConfig['name'] . "'",
+    'database.password' => "'" . echo $this->databaseConfig['password'] . "'",
+    'database.username' => "'" . echo $this->databaseConfig['userName'] . "'",
 EOD;
             $content = str_replace('%DATABASE_CONFIG%', $databaseContent, $content);
         }
