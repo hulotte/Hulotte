@@ -99,10 +99,17 @@ class ModuleCommand extends Command
     {
         $config = fopen($this->modulePath . '/config.php', 'a+');
         $content = require dirname(__DIR__) . '/templates/config.php';
-        $content = str_replace('%DATABASE_HOST%', $this->getConfigFromDatabase('host'), $content);
-        $content = str_replace('%DATABASE_NAME%', $this->getConfigFromDatabase('name'), $content);
-        $content = str_replace('%DATABASE_PASSWORD%', $this->getConfigFromDatabase('password'), $content);
-        $content = str_replace('%DATABASE_USERNAME%', $this->getConfigFromDatabase('userName'), $content);
+
+        if (!empty($this->databaseConfig)) {
+            $databaseContent = <<< EOD
+    'database.host' => "'" . $this->databaseConfig['host'] . "'",
+    'database.name' => "'" . $this->databaseConfig['name'] . "'",
+    'database.password' => "'" . $this->databaseConfig['password'] . "'",
+    'database.username' => "'" . $this->databaseConfig['userName'] . "'",
+EOD;
+            $content = str_replace('%DATABASE_CONFIG%', $databaseContent, $content);
+        }
+
         fputs($config, $content);
         fclose($config);
     }
@@ -191,14 +198,5 @@ class ModuleCommand extends Command
     private function createViewsFolder(): void
     {
         mkdir($this->modulePath . '/views');
-    }
-
-    /**
-     * @param string $index
-     * @return string
-     */
-    private function getConfigFromDatabase(string $index): string
-    {
-        return (isset($this->databaseConfig['$index'])) ? $this->databaseConfig['$index'] : '';
     }
 }
