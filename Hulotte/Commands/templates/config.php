@@ -5,7 +5,7 @@ return <<< 'EOD'
 
 return [
     // Variables
-    'database.host' => '%DATABASE_HOST%'
+    'database.host' => '%DATABASE_HOST%',
     'database.name' => '%DATABASE_NAME%',
     'database.password' => '%DATABASE_PASSWORD%',
     'database.username' => '%DATABASE_USERNAME%',

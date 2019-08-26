@@ -112,10 +112,10 @@ class ModuleCommand extends Command
             $databaseUserName = $this->databaseConfig['userName'];
         }
 
-        $content = str_replace('%DATABASE_HOST', $databaseHost, $content);
-        $content = str_replace('%DATABASE_NAME', $databaseName, $content);
-        $content = str_replace('%DATABASE_PASSWORD', $databasePassword, $content);
-        $content = str_replace('%DATABASE_USERNAME', $databaseUserName, $content);
+        $content = str_replace('%DATABASE_HOST%', $databaseHost, $content);
+        $content = str_replace('%DATABASE_NAME%', $databaseName, $content);
+        $content = str_replace('%DATABASE_PASSWORD%', $databasePassword, $content);
+        $content = str_replace('%DATABASE_USERNAME%', $databaseUserName, $content);
 
         fputs($config, $content);
         fclose($config);
