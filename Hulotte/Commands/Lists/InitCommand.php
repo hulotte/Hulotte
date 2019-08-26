@@ -70,6 +70,7 @@ class InitCommand extends Command
         }
 
         // Project default folders and files
+        $output->writeln('');
         $output->writeln('<info>Creating default folders and files... </info>');
         $output->writeln('');
 
