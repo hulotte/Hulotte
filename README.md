@@ -19,8 +19,9 @@ When Hulotte has been installed via [Composer](https://getcomposer.org/), you ca
 $ ./vendor/bin/hulotte init
 ```
 
-This command will install basics files and folders. It also install App module.
+This command will install basics files and folders. It also install App module and a database.
 
+## Commands
 If you need a database for your project, you can easy create it with this command line
 ```bash
 $ ./vendor/bin/hulotte database:create yourDatabaseName
@@ -34,8 +35,6 @@ You can simply run the command without specifying the name of the database
 $ ./vendor/bin/hulotte database:create
 ```
 
-
-## Commands
 You can create your own command. For that your class must inherit from _Symfony\Component\Console\Command\Command_ and be declared in the config file of your module like this:
 
 ```php
