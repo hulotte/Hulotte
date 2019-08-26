@@ -5,7 +5,10 @@ return <<< 'EOD'
 
 return [
     // Variables
-    %DATABASE_CONFIG%
+    'database.host' => '%DATABASE_HOST%'
+    'database.name' => '%DATABASE_NAME%',
+    'database.password' => '%DATABASE_PASSWORD%',
+    'database.username' => '%DATABASE_USERNAME%',
     'views.path' => __DIR__ . '/views',
 ];
 

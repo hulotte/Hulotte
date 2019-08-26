@@ -100,15 +100,22 @@ class ModuleCommand extends Command
         $config = fopen($this->modulePath . '/config.php', 'a+');
         $content = require dirname(__DIR__) . '/templates/config.php';
 
+        $databaseHost = '';
+        $databaseName = '';
+        $databasePassword = '';
+        $databaseUserName = '';
+
         if (!empty($this->databaseConfig)) {
-            $databaseContent = <<< EOD
-    'database.host' => "'" . echo $this->databaseConfig['host'] . "'",
-    'database.name' => "'" . echo $this->databaseConfig['name'] . "'",
-    'database.password' => "'" . echo $this->databaseConfig['password'] . "'",
-    'database.username' => "'" . echo $this->databaseConfig['userName'] . "'",
-EOD;
-            $content = str_replace('%DATABASE_CONFIG%', $databaseContent, $content);
+            $databaseHost = $this->databaseConfig['host'];
+            $databaseName = $this->databaseConfig['name'];
+            $databasePassword = $this->databaseConfig['password'];
+            $databaseUserName = $this->databaseConfig['userName'];
         }
+
+        $content = str_replace('%DATABASE_HOST', $databaseHost, $content);
+        $content = str_replace('%DATABASE_NAME', $databaseName, $content);
+        $content = str_replace('%DATABASE_PASSWORD', $databasePassword, $content);
+        $content = str_replace('%DATABASE_USERNAME', $databaseUserName, $content);
 
         fputs($config, $content);
         fclose($config);
