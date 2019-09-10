@@ -11,7 +11,7 @@ use Hulotte\{
     Renderer\RendererInterface,
     Router
 };
-use HulotteModules\%MODULE_NAME%\Actions\IndexAction;
+use %MODULE_NAME%\Actions\IndexAction;
 
 /**
  * Class %MODULE_NAME%Module

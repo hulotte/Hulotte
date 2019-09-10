@@ -3,7 +3,7 @@
 return <<< 'EOD'
 <?php
 
-namespace HulotteModules\%MODULE_NAME%\Actions;
+namespace %MODULE_NAME%\Actions;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Hulotte\Renderer\RendererInterface;
@@ -11,7 +11,7 @@ use Hulotte\Renderer\RendererInterface;
 /**
  * Class IndexAction
  *
- * @package HulotteModules\%MODULE_NAME%\Actions
+ * @package %MODULE_NAME%\Actions
  */
 class IndexAction
 {
