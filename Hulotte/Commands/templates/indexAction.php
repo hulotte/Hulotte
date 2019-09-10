@@ -35,7 +35,7 @@ class IndexAction
      */
     public function __invoke(ServerRequestInterface $request): string
     {
-        return $this->renderer->render('@%LCFIRST_MODULE_NAME%/index');
+        return $this->renderer->render('@%LCFIRST_MODULE_NAME%/page/index');
     }
 }
 
