@@ -76,6 +76,7 @@ class ModuleCommand extends Command
         $this->createActionsFolder();
         $this->createIndexActionFile();
         $this->createViewsFolder();
+        $this->createLayoutView();
         $this->createIndexView();
 
         $output->writeln('');
@@ -169,8 +170,19 @@ class ModuleCommand extends Command
      */
     private function createIndexView(): void
     {
-        $index = fopen($this->modulePath . '/views/index.twig', 'a+');
-        $content = '<h1>hello world</h1>';
+        $index = fopen($this->modulePath . '/views/page/index.twig', 'a+');
+        $content = require dirname(__DIR__) . '/templates/indexVue.php';
+        fputs($index, $content);
+        fclose($index);
+    }
+
+    /**
+     * Create the layout
+     */
+    private function createLayoutView(): void
+    {
+        $index = fopen($this->modulePath . '/views/layout.twig', 'a+');
+        $content = require dirname(__DIR__) . '/templates/layout.php';
         fputs($index, $content);
         fclose($index);
     }
@@ -205,5 +217,6 @@ class ModuleCommand extends Command
     private function createViewsFolder(): void
     {
         mkdir($this->modulePath . '/views');
+        mkdir($this->modulePath . '/views/page');
     }
 }
